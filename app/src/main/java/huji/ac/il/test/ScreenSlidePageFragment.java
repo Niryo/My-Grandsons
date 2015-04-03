@@ -9,14 +9,21 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.VideoView;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -25,8 +32,7 @@ public class ScreenSlidePageFragment extends Fragment {
 
     private int currentPage;
     private String fileName;
-    private ViewGroup rootView=null;
-
+    private ViewGroup rootView = null;
 
 
     /**
@@ -50,13 +56,13 @@ public class ScreenSlidePageFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-@Override
-public void onPause(){
-    super.onPause();
-    if(this.rootView!=null){
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (this.rootView != null) {
 
+        }
     }
-}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +75,7 @@ public void onPause(){
 //        ViewGroup rootView=null;
         if (name != null) {
             if (name.endsWith(".jpg")) {
-                 rootView = (ViewGroup) inflater
+                rootView = (ViewGroup) inflater
                         .inflate(R.layout.fragment_image_layout, container, false);
 
                 Bitmap myBitmap = BitmapFactory.decodeFile(name);
@@ -81,7 +87,7 @@ public void onPause(){
                 rootView = (ViewGroup) inflater
                         .inflate(R.layout.fragment_video_layout, container, false);
 
-               final VideoView video = (VideoView) rootView.findViewById(R.id.videoView);
+                final VideoView video = (VideoView) rootView.findViewById(R.id.videoView);
 //                final MediaController mc = new MediaController(getActivity());
 //                mc.setAnchorView(video);
 //                video.setMediaController(mc);
@@ -97,7 +103,7 @@ public void onPause(){
                 });
 
                 final View parent = (View) playButton.getParent();  // button: the view you want to enlarge hit area
-                parent.post( new Runnable() {
+                parent.post(new Runnable() {
                     public void run() {
                         final Rect rect = new Rect();
                         playButton.getHitRect(rect);
@@ -105,14 +111,14 @@ public void onPause(){
                         rect.left -= 100;   // increase left hit area
                         rect.bottom += 100; // increase bottom hit area
                         rect.right += 100;  // increase right hit area
-                        parent.setTouchDelegate( new TouchDelegate( rect , playButton));
+                        parent.setTouchDelegate(new TouchDelegate(rect, playButton));
                     }
                 });
 
                 video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
-                      playButton.setVisibility(View.VISIBLE);
+                        playButton.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -120,18 +126,43 @@ public void onPause(){
 
 
             }
+            if (name.endsWith(".txt")) {
+                rootView = (ViewGroup) inflater
+                        .inflate(R.layout.fragment_text_layout, container, false);
+                Log.w("customMsg", "reading text file");
 
+                File file = new File(name);
+                StringBuilder text = new StringBuilder();
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        text.append(line);
+                        text.append('\n');
+                    }
+                    br.close();
+                } catch (Exception e) {
+                    Log.w("customMsg", "can't read text file");
+                }
+
+
+                TextView text_view = (TextView) rootView.findViewById(R.id.textView);
+                text_view.setText(text);
+            }
         }
         return rootView;
+
     }
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    public void setCurrentPage(int position){
-        this.currentPage=position;
+
+    public void setCurrentPage(int position) {
+        this.currentPage = position;
     }
-    public int getPagenage(){
+
+    public int getPagenage() {
         return this.currentPage;
     }
 

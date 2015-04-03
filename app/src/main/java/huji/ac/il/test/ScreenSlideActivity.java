@@ -77,6 +77,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         // Instantiate a ViewPager and a PagerAdapter.
         this.preferences = getPreferences(MODE_PRIVATE);
         mPager = (ViewPager) findViewById(R.id.pager);
+        mPager.setPageMargin(15);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fileNameList);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(this.preferences.getInt("currentItem", 0));

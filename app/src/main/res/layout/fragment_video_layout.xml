@@ -33,7 +33,6 @@
         android:background="@drawable/play_button_style"
         android:layout_centerInParent="true"
 
-
         />
 
 

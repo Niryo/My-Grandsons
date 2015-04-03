@@ -13,10 +13,13 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 
 
@@ -76,12 +79,52 @@ public class myMessageProcessor implements MessageProcessor {
             }catch(Exception e){
                 System.out.println("failed saving image");
                 e.printStackTrace();
+                return null;
             }
             return null;
         }
 
     }
+    private class SaveTextFile extends AsyncTask<String, Void ,Void> {
+        private Context context;
+        public SaveTextFile(Context context) {
+         this.context=context;
+        }
 
+        @Override
+        protected Void doInBackground(String... text) {
+            Log.w("customMsg","now trying to save the text file");
+            Calendar calendar = new GregorianCalendar();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+            File rootDir = new File(context.getExternalFilesDir(null).getAbsolutePath()+File.separator + "savedFiles");
+            if( !rootDir.exists()){//todo: move this check to the main activity
+                rootDir.mkdir();
+            }
+
+            BufferedWriter out;
+            try {
+                String test1=rootDir.toString();
+                String test2= rootDir.getAbsolutePath();
+                Log.w("customMsg", "test1 is: "+test1);
+                Log.w("customMsg", "test2 is: " + test2);
+                Log.w("customMsg", "actual root is: "+context.getExternalFilesDir(null).getAbsolutePath()+File.separator + "savedFiles");
+                FileWriter fileWriter = new FileWriter(context.getExternalFilesDir(null).getAbsolutePath()+File.separator + "savedFiles"+File.separator + sdf.format(calendar.getTime()) + ".txt");
+                out = new BufferedWriter(fileWriter);
+                out.write(text[0]);
+                out.close();
+            }catch(Exception e){
+                Log.w("customMsg", "can't write to file!");
+                return null;
+            }
+            System.out.println("success saving to file");
+            Intent new_intent = new Intent();
+            new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
+            context.sendBroadcast(new_intent);
+            sendNotification();
+            return null;
+        }
+
+    }
     private class DownloadVideoTask extends AsyncTask<String, Void ,Void> {
         private Context context;
 
@@ -125,6 +168,7 @@ public class myMessageProcessor implements MessageProcessor {
             } catch (Exception e) {
 
                 System.out.println("failed downloading video");
+                return null;
             }
             return null;
         }
@@ -138,7 +182,12 @@ public class myMessageProcessor implements MessageProcessor {
 		String from = message.getAttribute("from");
 		if(message.getAttribute("type").equals("text")) {
 			ProtocolNode body = message.getChild("body");
-			String hex = new String(body.getData());
+			String text = new String(body.getData());
+            String hex = new String(body.getData());
+            if(text.startsWith("##")){
+                text=text.substring(2);
+                new SaveTextFile(context).execute(text);
+            }
 			String participant = message.getAttribute("participant");
 			if(participant != null && !participant.isEmpty()) {
 				//Group message

@@ -40,8 +40,17 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(getApplicationContext(), "received message in activity..!", Toast.LENGTH_SHORT).show();
-            Log.w("customMsg", "receive message!");
+            ArrayList<String>  fileNameListCopy= getImagesFromStorage();
+            int position= mPager.getCurrentItem();
+            Log.w("customMsg", "adapter size before: "+mPagerAdapter.getCount());
+            for(int i= position+1; i<fileNameListCopy.size(); i++){
+                fileNameList.add(fileNameListCopy.get(i));
+            }
+
+            Log.w("customMsg", "adapter size after: "+mPagerAdapter.getCount());
+            mPagerAdapter.notifyDataSetChanged();
+
+
         }
     };
 

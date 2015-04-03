@@ -61,6 +61,9 @@ public class myMessageProcessor implements MessageProcessor {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                 out.close();
                 System.out.println("success saving to file");
+                Intent new_intent = new Intent();
+                new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
+                context.sendBroadcast(new_intent);
 
 
             }catch(Exception e){
@@ -107,6 +110,9 @@ public class myMessageProcessor implements MessageProcessor {
                 }
                 out.close();
                 System.out.println("success saving video!");
+                Intent new_intent = new Intent();
+                new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
+                context.sendBroadcast(new_intent);
 
             } catch (Exception e) {
 

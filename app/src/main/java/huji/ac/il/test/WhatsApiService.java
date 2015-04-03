@@ -114,9 +114,9 @@ public class WhatsApiService extends Service {
                     try {
                     wa.pollMessages();
                     Thread.sleep(3000);
-                        Intent new_intent = new Intent();
-                        new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
-                        sendBroadcast(new_intent);
+//                        Intent new_intent = new Intent();
+//                        new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
+//                        sendBroadcast(new_intent);
                     } catch (Exception e) {
                         Log.w("customMsg","pulling error!");
                         Log.w("customMsg", e.getCause() );

@@ -33,6 +33,7 @@ import java.security.NoSuchAlgorithmException;
 public class WhatsApiService extends Service {
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
+    private static boolean isRunning= false;
 
 
 
@@ -134,6 +135,7 @@ public class WhatsApiService extends Service {
 
     @Override
     public void onCreate() {
+        isRunning=true;
         HandlerThread thread = new HandlerThread("ServiceStartArguments") ;
         thread.start();
 
@@ -179,6 +181,9 @@ public class WhatsApiService extends Service {
         return START_STICKY;
     }
 
+    public static boolean isServiceRunning(){
+        return isRunning;
+    }
     @Override
     public IBinder onBind(Intent intent) {
         // We don't provide binding, so return null
@@ -187,6 +192,7 @@ public class WhatsApiService extends Service {
 
     @Override
     public void onDestroy() {
+        isRunning=false;
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
     }
 

@@ -70,15 +70,15 @@ public class ScreenSlideActivity extends FragmentActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        IntentFilter intentFilter = new IntentFilter("CUSTOM_INCOMING_MESSAGE");
-        registerReceiver(this.IncomingMessagesReceiver, intentFilter);
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("activity got created!");
-
+        IntentFilter intentFilter = new IntentFilter("CUSTOM_INCOMING_MESSAGE");
+        registerReceiver(this.IncomingMessagesReceiver, intentFilter);
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -96,7 +96,6 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(this.IncomingMessagesReceiver);
         SharedPreferences.Editor ed = preferences.edit();
         ed.putInt("currentItem", mPager.getCurrentItem());
         ed.commit();

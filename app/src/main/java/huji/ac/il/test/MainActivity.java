@@ -10,6 +10,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -97,21 +98,25 @@ public class MainActivity extends ActionBarActivity {
         String username = "972535059773";
         String identity = "test";
         String nickname = "nir";
+        if(!WhatsApiService.isServiceRunning()) {
+            Log.w("customMsg", "service seems to be down, restarting now:");
+            Intent intentInit = new Intent(this, WhatsApiService.class);
+            intentInit.putExtra("command", "INIT");
+            intentInit.putExtra("username", "972535059773");
+            intentInit.putExtra("identity", "test");
+            intentInit.putExtra("nickname", "nir");
+            startService(intentInit);
 
-        Intent intentInit= new Intent(this, WhatsApiService.class);
-        intentInit.putExtra("command", "INIT");
-        intentInit.putExtra("username", "972535059773");
-        intentInit.putExtra("identity", "test");
-        intentInit.putExtra("nickname", "nir");
-        startService(intentInit);
-
-        Intent intentConnect= new Intent(this, WhatsApiService.class);
-        intentConnect.putExtra("command", "CONNECT");
-        startService(intentConnect);
-        Intent intentPollMsg= new Intent(this, WhatsApiService.class);
-        intentPollMsg.putExtra("command","LISTEN_TO_MSG");
-        startService(intentPollMsg);
-
+            Intent intentConnect = new Intent(this, WhatsApiService.class);
+            intentConnect.putExtra("command", "CONNECT");
+            startService(intentConnect);
+            Intent intentPollMsg = new Intent(this, WhatsApiService.class);
+            intentPollMsg.putExtra("command", "LISTEN_TO_MSG");
+            startService(intentPollMsg);
+        }
+        else{
+            Log.w("customMsg", "service working!");
+        }
         startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
         this.finish();
 

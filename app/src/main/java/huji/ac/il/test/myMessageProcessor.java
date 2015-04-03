@@ -1,12 +1,18 @@
 package huji.ac.il.test;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 
 
 import java.io.File;
@@ -64,6 +70,7 @@ public class myMessageProcessor implements MessageProcessor {
                 Intent new_intent = new Intent();
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
                 context.sendBroadcast(new_intent);
+                sendNotification();
 
 
             }catch(Exception e){
@@ -113,6 +120,7 @@ public class myMessageProcessor implements MessageProcessor {
                 Intent new_intent = new Intent();
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
                 context.sendBroadcast(new_intent);
+                sendNotification();
 
             } catch (Exception e) {
 
@@ -181,5 +189,35 @@ public class myMessageProcessor implements MessageProcessor {
 //		}
 		System.out.println("Preview: "+path.getAbsolutePath());
 	}
+
+    private void sendNotification(){
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.icon1)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+
+        int id = 0;
+        Intent resultIntent = new Intent(context, ScreenSlideActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+// Adds the back stack
+        stackBuilder.addParentStack(ScreenSlideActivity.class);
+// Adds the Intent to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+// Gets a PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(resultPendingIntent);
+        builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(uri);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(id, builder.build());
+
+    }
+
+
 
 }

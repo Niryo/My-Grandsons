@@ -1374,7 +1374,6 @@ public class WhatsApi {
 	}
 
 	protected String buildIdentity(String id) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        Log.w("customMsg", "identity is: "+id);
 		byte[] hash = hash("SHA-1", id.getBytes());
 		String hashString = new String(hash, "iso-8859-1");
 		String newId = URLEncoder.encode(hashString, "iso-8859-1").toLowerCase();

@@ -2,7 +2,10 @@ package huji.ac.il.test;
 
 import android.app.IntentService;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -30,6 +33,8 @@ import java.security.NoSuchAlgorithmException;
 public class WhatsApiService extends Service {
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
+
+
 
 
     // Handler that receives messages from the thread
@@ -108,7 +113,10 @@ public class WhatsApiService extends Service {
                     Log.w("customMsg","pulling!");
                     try {
                     wa.pollMessages();
-                      Thread.sleep(3000);
+                    Thread.sleep(3000);
+                        Intent new_intent = new Intent();
+                        new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
+                        sendBroadcast(new_intent);
                     } catch (Exception e) {
                         Log.w("customMsg","pulling error!");
                         Log.w("customMsg", e.getCause() );

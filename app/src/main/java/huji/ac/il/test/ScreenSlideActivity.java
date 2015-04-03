@@ -7,17 +7,22 @@ package huji.ac.il.test;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 
 import java.io.File;
@@ -31,11 +36,40 @@ public class ScreenSlideActivity extends FragmentActivity {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private ArrayList<String> fileNameList;
+    private BroadcastReceiver IncomingMessagesReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(getApplicationContext(), "received message in activity..!", Toast.LENGTH_SHORT).show();
+            Log.w("customMsg", "receive message!");
+        }
+    };
+
+//    public static class IncomingMessagesReceiver extends BroadcastReceiver {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            Log.d("Service", "Sending broadcast to activity");
+//            if( intent.getAction().equals("CUSTOM_INCOMING_MESSAGE")){ //todo: change name of notification to something meaningful
+//                Log.w("customMsg","NEW MESSAGE NOTIFICATION RECEIVED FROM SERVICE!");
+//                //todo:notify adapter
+//            }
+//
+//        }
+//    };
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter("CUSTOM_INCOMING_MESSAGE");
+        registerReceiver(this.IncomingMessagesReceiver, intentFilter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("activity got created!");
+
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -53,7 +87,7 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     protected void onPause() {
         super.onPause();
-
+        unregisterReceiver(this.IncomingMessagesReceiver);
         SharedPreferences.Editor ed = preferences.edit();
         ed.putInt("currentItem", mPager.getCurrentItem());
         ed.commit();

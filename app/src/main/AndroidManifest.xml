@@ -34,6 +34,15 @@
         </activity>
 
         <service android:name=".WhatsApiService"/>
+<!--
+        <receiver android:name="ScreenSlideActivity$IncomingMessagesReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="CUSTOM_INCOMING_MESSAGE"></action>
+            </intent-filter>
+        </receiver>
+-->
+
+
     </application>
 
 </manifest>

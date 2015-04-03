@@ -178,17 +178,7 @@ public class myMessageProcessor implements MessageProcessor {
 		}
 	}
 
-	private void writePreview(String pathname, byte[] preview) {
-		File path = new File(pathname);
-//		try {
-//			Files.write(preview, path); todo save file
 
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		System.out.println("Preview: "+path.getAbsolutePath());
-	}
 
     private void sendNotification(){
         NotificationCompat.Builder builder =

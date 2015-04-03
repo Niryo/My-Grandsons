@@ -114,10 +114,8 @@ public class WhatsApiService extends Service {
                     Log.w("customMsg","pulling!");
                     try {
                     wa.pollMessages();
+                    wa.sendPresence();
                     Thread.sleep(3000);
-//                        Intent new_intent = new Intent();
-//                        new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
-//                        sendBroadcast(new_intent);
                     } catch (Exception e) {
                         Log.w("customMsg","pulling error!");
                         Log.w("customMsg", e.getCause() );
@@ -138,7 +136,6 @@ public class WhatsApiService extends Service {
         isRunning=true;
         HandlerThread thread = new HandlerThread("ServiceStartArguments") ;
         thread.start();
-
         // Get the HandlerThread's Looper and use it for our Handler
         mServiceLooper = thread.getLooper();
         mServiceHandler = new ServiceHandler(mServiceLooper);

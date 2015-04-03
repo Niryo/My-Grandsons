@@ -54,18 +54,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         }
     };
 
-//    public static class IncomingMessagesReceiver extends BroadcastReceiver {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            Log.d("Service", "Sending broadcast to activity");
-//            if( intent.getAction().equals("CUSTOM_INCOMING_MESSAGE")){ //todo: change name of notification to something meaningful
-//                Log.w("customMsg","NEW MESSAGE NOTIFICATION RECEIVED FROM SERVICE!");
-//                //todo:notify adapter
-//            }
-//
-//        }
-//    };
+
 
     @Override
     protected void onStart(){
@@ -94,6 +83,14 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     }
 
+    @Override
+    protected  void onDestroy(){
+        super.onDestroy();
+        unregisterReceiver(this.IncomingMessagesReceiver);
+
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         SharedPreferences.Editor ed = preferences.edit();

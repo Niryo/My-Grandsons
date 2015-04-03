@@ -30,63 +30,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
-    class Login extends AsyncTask<WhatsApi, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(WhatsApi... wa) {
-         while (true) {
-            try {
-                wa[0].loginWithPassword("17+gaHU/Pa6VVGUgqkxQRtI/t+g=");
-                System.out.println("login success!");
-                break;
-            } catch (WhatsAppException e) {
-                System.out.println("failed loggin");
-                SystemClock.sleep(2);
-
-            }
-        }
-
-            return null;
-        }
-    }
-
-    class Connect extends AsyncTask<WhatsApi, Void, WhatsApi> {
-        protected void onPostExecute(WhatsApi wa) {
-            System.out.println("connect success!");
-            System.out.println("now login");
-            new Login().execute(wa);
-
-        }
-
-        @Override
-        protected WhatsApi doInBackground(WhatsApi... wa) {
-                try {
-                    wa[0].connect();
-                } catch (IOException e) {
-                    System.out.println("Connect failed");
-                }
-               return wa[0];
-        }
-
-    }
-
-    public ArrayList<String> getImagesFromStorage()
-    {
-        ArrayList<String> fileNameList= new ArrayList<String>();
-        File file= new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + "savedFiles");
-
-        if (file.isDirectory())
-        {
-            File[] listOfFiles= file.listFiles();
-            for (int i = 0; i <listOfFiles.length; i++)
-            {
-
-                fileNameList.add(listOfFiles[i].getAbsolutePath());
-            }
-        }
-        return fileNameList;
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

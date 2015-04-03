@@ -111,7 +111,7 @@ public class WhatsApi {
 	private MediaInfo mediaFile;
 	private JSONObject mediaInfo;
 	private MessageProcessor processor = null;
-	private MessagePoller poller;
+//	private MessagePoller poller;
 
     public interface Callback{
         public void doJob(JSONObject response);
@@ -368,9 +368,9 @@ public class WhatsApi {
 	 * Disconnect from the WhatsApp network.
 	 */
 	public void disconnect() {
-		if(poller != null) {
-			poller.setRunning(false);
-		}
+//		if(poller != null) {
+//			poller.setRunning(false);
+//		}
 		if (socket != null && socket.isConnected()) {
 			try {
 				socket.close();
@@ -1415,15 +1415,15 @@ public class WhatsApi {
 			throw new WhatsAppException("Login failure");
 		}
 		int cnt = 0;
-		poller = new MessagePoller(this);
-		poller.start();
-		do {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				throw new WhatsAppException(e);
-			}
-		} while ((cnt++ < 100) && (loginStatus == LoginStatus.DISCONNECTED_STATUS));
+
+//		poller.start();
+//		do {
+//			try {
+//				Thread.sleep(100);
+//			} catch (InterruptedException e) {
+//				throw new WhatsAppException(e);
+//			}
+//		} while ((cnt++ < 100) && (loginStatus == LoginStatus.DISCONNECTED_STATUS));
 		sendPresence("available");
 	}
 
@@ -2695,23 +2695,23 @@ public class WhatsApi {
 	}
 
 	private void waitForServer(String id) throws IncompleteMessageException, InvalidMessageException, InvalidTokenException, IOException, WhatsAppException, JSONException, NoSuchAlgorithmException, InvalidKeyException, DecodeException {
-		Date start = new Date();
-		Date now = start;
-		while (!checkReceivedId(id) && (now.getTime() - start.getTime()) < 5000) {
-			if(poller.isAlive()) {
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-				}
-			} else {
-
-				pollMessages();
-			}
-			now = new Date();
-		}
-		if(log.isDebugEnabled()) {
-			log.debug("waitForServer done waiting for "+id);
-		}
+//		Date start = new Date();
+//		Date now = start;
+//		while (!checkReceivedId(id) && (now.getTime() - start.getTime()) < 5000) {
+//			if(poller.isAlive()) {
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//				}
+//			} else {
+//
+//				pollMessages();
+//			}
+//			now = new Date();
+//		}
+//		if(log.isDebugEnabled()) {
+//			log.debug("waitForServer done waiting for "+id);
+//		}
 	}
 
 	private boolean checkReceivedId(String id) {

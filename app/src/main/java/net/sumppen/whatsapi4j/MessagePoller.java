@@ -1,5 +1,7 @@
 package net.sumppen.whatsapi4j;
 
+import android.util.Log;
+
 import java.net.SocketTimeoutException;
 
 import org.slf4j.Logger;
@@ -16,15 +18,14 @@ public class MessagePoller extends Thread {
 
 	@Override
 	public void run() {
-		log.info("Message poller starting");
-		while(isRunning())
-		try {
-			wa.pollMessages();
-		} catch (SocketTimeoutException e) {
-		} catch (Exception e) {
-			log.error("Message poller caught exception: "+e.getMessage(), e);
-		}
-		log.info("Message poller finishing");
+//		while(isRunning())
+//		try {
+//			wa.pollMessages();
+//		} catch (SocketTimeoutException e) {
+//		} catch (Exception e) {
+//			log.error("Message poller caught exception: "+e.getMessage(), e);
+//		}
+//		log.info("Message poller finishing");
 	}
 
 	public boolean isRunning() {

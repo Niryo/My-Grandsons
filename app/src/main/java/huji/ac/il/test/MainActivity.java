@@ -97,25 +97,45 @@ public class MainActivity extends ActionBarActivity {
         String username = "972535059773";
         String identity = "test";
         String nickname = "nir";
-        WhatsApi wa = null;
 
-        try {
-            wa = new WhatsApi(username, identity, nickname, getApplicationContext());
-            MessageProcessor mp = new myMessageProcessor(getApplicationContext());
-            wa.setNewMessageBind(mp);
+        Intent intentInit= new Intent(this, WhatsApiService.class);
+        intentInit.putExtra("command", "INIT");
+        intentInit.putExtra("username", "972535059773");
+        intentInit.putExtra("identity", "test");
+        intentInit.putExtra("nickname", "nir");
+        startService(intentInit);
 
+        Intent intentConnect= new Intent(this, WhatsApiService.class);
+        intentConnect.putExtra("command", "CONNECT");
+        startService(intentConnect);
+        Intent intentPollMsg= new Intent(this, WhatsApiService.class);
+        intentPollMsg.putExtra("command","LISTEN_TO_MSG");
+        startService(intentPollMsg);
 
-        } catch (NoSuchAlgorithmException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (net.sumppen.whatsapi4j.WhatsAppException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        new Connect().execute(wa);
         startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
         this.finish();
+
+
+
+//        WhatsApi wa = null;
+//
+//        try {
+//            wa = new WhatsApi(username, identity, nickname, getApplicationContext());
+//            MessageProcessor mp = new myMessageProcessor(getApplicationContext());
+//            wa.setNewMessageBind(mp);
+//
+//
+//        } catch (NoSuchAlgorithmException e1) {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        } catch (net.sumppen.whatsapi4j.WhatsAppException e1) {
+//            // TODO Auto-generated catch block
+//            e1.printStackTrace();
+//        }
+//
+//        new Connect().execute(wa);
+//        startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
+//        this.finish();
 
 
 

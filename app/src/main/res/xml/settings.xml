@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent">
+
+    <CheckBoxPreference
+        android:key="sound"
+        android:title="@string/sound_title"
+        android:summary="@string/sound_summery"
+        android:defaultValue="true" />
+
+    <CheckBoxPreference
+        android:key="vibrate"
+        android:title="@string/vibrate_title"
+        android:summary="@string/vibrate_summery"
+        android:defaultValue="true" />
+
+</PreferenceScreen>

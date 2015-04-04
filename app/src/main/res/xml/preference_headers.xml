@@ -1,0 +1,9 @@
+<preference-headers
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="fill_parent" android:layout_width="fill_parent">
+
+    <header android:fragment="huji.ac.il.test.Settings$SettingsFragment"
+        android:title="Prefs 1"
+        android:summary="An example of some preferences." />
+
+
+</preference-headers>

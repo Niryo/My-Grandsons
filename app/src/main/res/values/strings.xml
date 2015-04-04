@@ -3,4 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="sound_title">Sound</string>
+    <string name="sound_summery">Turn notification sound on\off</string>
+    <string name="vibrate_title">Vibration</string>
+    <string name="vibrate_summery">Turn vibration on\off</string>
+
 </resources>

@@ -1,6 +1,7 @@
 package huji.ac.il.test;
 
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -11,13 +12,18 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -33,6 +39,7 @@ public class ScreenSlidePageFragment extends Fragment {
     private int currentPage;
     private String fileName;
     private ViewGroup rootView = null;
+    private Button button;
 
 
     /**
@@ -59,8 +66,9 @@ public class ScreenSlidePageFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (this.rootView != null) {
-
+        View button=rootView.findViewById(0);
+        if(button!=null){
+         rootView.removeView(button);
         }
     }
 
@@ -149,21 +157,37 @@ public class ScreenSlidePageFragment extends Fragment {
                 TextView text_view = (TextView) rootView.findViewById(R.id.textView);
                 text_view.setText(text);
             }
+
         }
+
         return rootView;
 
     }
 
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
+    public void attachButton(final int lastPage, final ViewPager mPager){
+        LayoutInflater inflater =
+                (LayoutInflater)getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.new_messages_button, rootView,true);
+        this.button = (Button) rootView.findViewById(R.id.new_message_button);
+        this.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPager.setCurrentItem(lastPage);
 
-    public void setCurrentPage(int position) {
-        this.currentPage = position;
+            }
+        });
     }
 
-    public int getPagenage() {
-        return this.currentPage;
+    public void removeButton(){
+        if(this.button!=null) {
+            ViewGroup parent = (ViewGroup) this.button.getParent();
+            parent.removeView(this.button);
+        }
+
     }
 
 

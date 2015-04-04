@@ -14,16 +14,7 @@
 
         />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/arrow"
-        android:src="@drawable/normal_arrow"
-        android:background="@android:color/transparent"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:visibility="gone"
-        />
+
 
 
     <Button

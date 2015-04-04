@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.PagerAdapter;
@@ -34,7 +35,7 @@ public class ScreenSlideActivity extends FragmentActivity {
 
     private SharedPreferences preferences;
     private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
+    private ScreenSlidePagerAdapter mPagerAdapter;
     private ArrayList<String> fileNameList;
     private BroadcastReceiver IncomingMessagesReceiver = new BroadcastReceiver() {
 
@@ -49,7 +50,26 @@ public class ScreenSlideActivity extends FragmentActivity {
 
             Log.w("customMsg", "adapter size after: "+mPagerAdapter.getCount());
             mPagerAdapter.notifyDataSetChanged();
+            final ScreenSlidePageFragment currentFragment= (ScreenSlidePageFragment) mPagerAdapter.getRegisteredFragment( mPager.getCurrentItem());
+            currentFragment.attachButton(fileNameList.size()-1, mPager);
+            mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                    currentFragment.removeButton();
+                    mPager.setOnPageChangeListener(null);
+                }
+
+            });
 
         }
     };
@@ -59,7 +79,6 @@ public class ScreenSlideActivity extends FragmentActivity {
     @Override
     protected void onStart(){
         super.onStart();
-
     }
 
     @Override
@@ -119,7 +138,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public ArrayList<String> getImagesFromStorage()
+    private ArrayList<String> getImagesFromStorage()
     {
         ArrayList<String> fileNameList= new ArrayList<String>();
         File file= new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + "savedFiles");
@@ -134,6 +153,12 @@ public class ScreenSlideActivity extends FragmentActivity {
             }
         }
         return fileNameList;
+    }
+
+    private void attachNewMessageButton(){
+        Fragment currentFragment=mPagerAdapter.getRegisteredFragment( mPager.getCurrentItem());
+
+
     }
 
 }

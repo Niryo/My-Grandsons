@@ -50,9 +50,14 @@
         <service
             android:name=".WhatsApiService"
             />
-        <receiver android:name="huji.ac.il.test.BootReceiver"> 
+        <receiver android:name="huji.ac.il.test.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="huji.ac.il.test.PollMessagesWhileAsleep">
+            <intent-filter>
+                <action android:name="POLL" />
             </intent-filter>
         </receiver>
 <!--

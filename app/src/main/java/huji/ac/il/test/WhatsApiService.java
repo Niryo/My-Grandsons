@@ -1,6 +1,8 @@
 package huji.ac.il.test;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +15,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,18 +35,17 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 public class WhatsApiService extends Service {
-    private Looper mServiceLooper;
-    private ServiceHandler mServiceHandler;
-    private static boolean isRunning = false;
 
+    private static boolean isRunning = false;
+    private WhatsApi wa;
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
-        private WhatsApi wa;
+
 
         public ServiceHandler(Looper looper) {
             super(looper);
-            this.wa = wa;
+
         }
 
         @Override
@@ -67,58 +69,58 @@ public class WhatsApiService extends Service {
 
                 //============ login===============
 
-                while (true) {
+
                     try {
                         wa.connect();
                         Log.w("customMsg", "connect success!");
-                        break;
+
                     } catch (Exception e) {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e1) {
-                            Log.w("customMsg", "fatal error!");
-                            break;
-                        }
+
                         e.printStackTrace();
                     }
-                }
 
-                while (true) {
+
                     try {
                         wa.loginWithPassword("17+gaHU/Pa6VVGUgqkxQRtI/t+g=");
                         Log.w("customMsg", "login success!");
-                        break;
+
 
                     } catch (Exception e) {
                         Log.w("customMsg", "login failed!");
                         e.printStackTrace();
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e1) {
-                            Log.w("customMsg", "fatal error!");
-                            break;
-                        }
 
                     }
-                }
+
 
 
                 //==============Poll messages==================
 
                 while (true) {
-
                     Log.w("customMsg", "pulling!");
                     try {
                         wa.pollMessages();
                         wa.sendPresence();
-                        Thread.sleep(3000);
+                        Thread.sleep(10000);
                     } catch (Exception e) {
                         Log.w("customMsg", "pulling error!");
                         Log.w("customMsg", e.getCause());
                     }
                 }
 
-            } else {
+            }
+            if(msg.arg2==2){
+                try {
+                    Log.w("customMsg", "wake for pulling!");
+                    wa.pollMessages();
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+                stopSelf(msg.arg1);
+
+            }
+
+            else {
                 Log.w("customMsg", "undefiend message!");
                 stopSelf(msg.arg1);
             }
@@ -126,30 +128,60 @@ public class WhatsApiService extends Service {
         }
     }
 
+
+
     @Override
     public void onCreate() {
         isRunning = true;
-        HandlerThread thread = new HandlerThread("ServiceStartArguments");
-        thread.start();
-        // Get the HandlerThread's Looper and use it for our Handler
-        mServiceLooper = thread.getLooper();
-        mServiceHandler = new ServiceHandler(mServiceLooper);
+
+
+        AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent pollIntent= new Intent();
+        pollIntent.setAction("POLL");
+        PendingIntent operation = PendingIntent.getBroadcast(getApplicationContext(), 0, pollIntent, 0);
+        am.cancel(operation);
+        am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+100000, 100000, operation);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        HandlerThread thread = new HandlerThread("ServiceStartArguments");
+        thread.start();
+        // Get the HandlerThread's Looper and use it for our Handler
+        Looper mServiceLooper = thread.getLooper();
+        ServiceHandler  mServiceHandler = new ServiceHandler(mServiceLooper);
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-        Message msg = mServiceHandler.obtainMessage();
-        msg.arg1 = startId;
-        if (intent == null || intent.getStringExtra("command").equals("START_WHATSAPP_SERVICE")) {
-            msg.arg2 = 1;
 
-        } else {
+
+
+
+        Message msg = mServiceHandler.obtainMessage();
+
+        msg.arg1 = startId;
+
+        if (intent == null ) {
+            Log.w("customMsg", "restarting, intent=null");
+
+            msg.arg2 = 1;
+        }
+       else if ("START_WHATSAPP_SERVICE".equals(intent.getStringExtra("command")) ){
+            Log.w("customMsg","START_WHATSAPP_SERVICE!");
+            AlarmManager am = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            Intent pollIntent= new Intent();
+            pollIntent.setAction("POLL");
+            PendingIntent operation = PendingIntent.getBroadcast(getApplicationContext(), 0, pollIntent, 0);
+            am.cancel(operation);
+            msg.arg2 = 1;
+        }
+        else if ("POLL".equals(intent.getStringExtra("command"))){
+            msg.arg2=2;
+        }
+        else {
             msg.arg2 = -1;
         }
 
         mServiceHandler.sendMessage(msg);
-        // If we get killed, after returning from here, restart
+//        // If we get killed, after returning from here, restart
         return START_STICKY;
     }
 

@@ -72,7 +72,7 @@ public class myMessageProcessor implements MessageProcessor {
                 System.out.println("success saving to file");
                 Intent new_intent = new Intent();
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
-                context.sendBroadcast(new_intent);
+                context.sendBroadcast(new_intent);//todo wait for other messages to download.
                 sendNotification();
 
 

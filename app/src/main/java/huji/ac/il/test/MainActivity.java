@@ -45,19 +45,10 @@ public class MainActivity extends ActionBarActivity {
         String nickname = "nir";
         if(!WhatsApiService.isServiceRunning()) {
             Log.w("customMsg", "service seems to be down, restarting now:");
-            Intent intentInit = new Intent(this, WhatsApiService.class);
-            intentInit.putExtra("command", "INIT");
-            intentInit.putExtra("username", "972535059773");
-            intentInit.putExtra("identity", "test");
-            intentInit.putExtra("nickname", "nir");
-            startService(intentInit);
-
-            Intent intentConnect = new Intent(this, WhatsApiService.class);
-            intentConnect.putExtra("command", "CONNECT");
-            startService(intentConnect);
             Intent intentPollMsg = new Intent(this, WhatsApiService.class);
-            intentPollMsg.putExtra("command", "LISTEN_TO_MSG");
+            intentPollMsg.putExtra("command", "START_WHATSAPP_SERVICE");
             startService(intentPollMsg);
+
         }
         else{
             Log.w("customMsg", "service working!");

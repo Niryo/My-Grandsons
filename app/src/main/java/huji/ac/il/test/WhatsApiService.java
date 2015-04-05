@@ -12,6 +12,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,25 +34,21 @@ import java.security.NoSuchAlgorithmException;
 public class WhatsApiService extends Service {
     private Looper mServiceLooper;
     private ServiceHandler mServiceHandler;
-    private static boolean isRunning= false;
-
-
+    private static boolean isRunning = false;
 
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
         private WhatsApi wa;
+
         public ServiceHandler(Looper looper) {
             super(looper);
-            this.wa=wa;
+            this.wa = wa;
         }
+
         @Override
         public void handleMessage(Message msg) {
-            if(msg.arg2==-1 ){
-                Log.w("customMsg", "undefiend message!");
-
-            }
-            if(msg.arg2==0 || msg.arg2==3){
+            if (msg.arg2 == 1) {
 
 //                String username = msg.getData().getString("username");
 //                String identity = msg.getData().getString("identity");
@@ -64,17 +61,16 @@ public class WhatsApiService extends Service {
                     MessageProcessor mp = new myMessageProcessor(getApplicationContext());
                     wa.setNewMessageBind(mp);
                 } catch (Exception e) {
-                    Log.w("customMsg" ,"can't create whatsApi object!");
+                    Log.w("customMsg", "can't create whatsApi object!");
                     e.printStackTrace();
                 }
 
+                //============ login===============
 
-            }
-            if(msg.arg2==1 || msg.arg2==3){
-                while(true) {
+                while (true) {
                     try {
                         wa.connect();
-                        Log.w("customMsg","connect success!");
+                        Log.w("customMsg", "connect success!");
                         break;
                     } catch (Exception e) {
                         try {
@@ -87,14 +83,14 @@ public class WhatsApiService extends Service {
                     }
                 }
 
-                while(true) {
+                while (true) {
                     try {
                         wa.loginWithPassword("17+gaHU/Pa6VVGUgqkxQRtI/t+g=");
-                        Log.w("customMsg","login success!");
+                        Log.w("customMsg", "login success!");
                         break;
 
                     } catch (Exception e) {
-                        Log.w("customMsg","login failed!");
+                        Log.w("customMsg", "login failed!");
                         e.printStackTrace();
                         try {
                             Thread.sleep(3000);
@@ -107,34 +103,33 @@ public class WhatsApiService extends Service {
                 }
 
 
-            }
+                //==============Poll messages==================
 
-            if(msg.arg2==2 || msg.arg2==3){
-                while(true){
-                    Log.w("customMsg","pulling!");
+                while (true) {
+
+                    Log.w("customMsg", "pulling!");
                     try {
-                    wa.pollMessages();
-                    wa.sendPresence();
-                    Thread.sleep(3000);
+                        wa.pollMessages();
+                        wa.sendPresence();
+                        Thread.sleep(3000);
                     } catch (Exception e) {
-                        Log.w("customMsg","pulling error!");
-                        Log.w("customMsg", e.getCause() );
+                        Log.w("customMsg", "pulling error!");
+                        Log.w("customMsg", e.getCause());
                     }
                 }
-            }
-            if(msg.arg2==0 ||msg.arg2==1){
+
+            } else {
+                Log.w("customMsg", "undefiend message!");
                 stopSelf(msg.arg1);
             }
-
-
 
         }
     }
 
     @Override
     public void onCreate() {
-        isRunning=true;
-        HandlerThread thread = new HandlerThread("ServiceStartArguments") ;
+        isRunning = true;
+        HandlerThread thread = new HandlerThread("ServiceStartArguments");
         thread.start();
         // Get the HandlerThread's Looper and use it for our Handler
         mServiceLooper = thread.getLooper();
@@ -146,41 +141,22 @@ public class WhatsApiService extends Service {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
         Message msg = mServiceHandler.obtainMessage();
         msg.arg1 = startId;
-        if(intent==null){
-            msg.arg2=3;
-            mServiceHandler.sendMessage(msg);
-            return START_STICKY;
-        }
-        String command = intent.getStringExtra("command");
-        switch( command){
-            case "INIT":
-                Bundle bundle= new Bundle();
-                bundle.putString("username",intent.getStringExtra("username"));
-                bundle.putString("identity",intent.getStringExtra("identity"));
-                bundle.putString("nickname",intent.getStringExtra("nickname"));
-                msg.setData(bundle);
-                msg.arg2=0;
-                break;
-            case "CONNECT":
-                msg.arg2=1;
-                break;
-            case "LISTEN_TO_MSG":
-                msg.arg2=2;
-                break;
-            default:
-                msg.arg2=-1;
+        if (intent == null || intent.getStringExtra("command").equals("START_WHATSAPP_SERVICE")) {
+            msg.arg2 = 1;
 
+        } else {
+            msg.arg2 = -1;
         }
 
         mServiceHandler.sendMessage(msg);
-
         // If we get killed, after returning from here, restart
         return START_STICKY;
     }
 
-    public static boolean isServiceRunning(){
+    public static boolean isServiceRunning() {
         return isRunning;
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         // We don't provide binding, so return null
@@ -189,7 +165,7 @@ public class WhatsApiService extends Service {
 
     @Override
     public void onDestroy() {
-        isRunning=false;
+        isRunning = false;
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show();
     }
 

@@ -20,6 +20,7 @@ import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ public class ScreenSlidePageFragment extends Fragment {
     private String fileName;
     private ViewGroup rootView = null;
     private Button button;
+    private int msgCounter = 1;
 
 
     /**
@@ -164,11 +166,13 @@ public class ScreenSlidePageFragment extends Fragment {
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-    public void attachButton(final int lastPage, final ViewPager mPager){
+
+    public void attachButton(final int lastPage, final ViewPager mPager) {
         LayoutInflater inflater =
-                (LayoutInflater)getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LAYOUT_INFLATER_SERVICE);
+                (LayoutInflater) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LAYOUT_INFLATER_SERVICE);
         this.button = (Button) rootView.findViewById(R.id.new_message_button);
-        if (this.button==null) {
+        if (this.button == null) {
+
             inflater.inflate(R.layout.new_messages_button, rootView, true);
             this.button = (Button) rootView.findViewById(R.id.new_message_button);
             this.button.setOnClickListener(new View.OnClickListener() {
@@ -178,13 +182,20 @@ public class ScreenSlidePageFragment extends Fragment {
 
                 }
             });
+
+//           this.button.startAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.slide_in_top));
+            this.button.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_left));
+            this.button.setVisibility(View.VISIBLE);
         }
+        this.button.setText(this.msgCounter + " New!");
+        this.msgCounter++;
     }
 
-    public void removeButton(){
-        if(this.button!=null) {
+    public void removeButton() {
+        if (this.button != null) {
             ViewGroup parent = (ViewGroup) this.button.getParent();
             parent.removeView(this.button);
+            this.msgCounter = 1;
         }
 
     }

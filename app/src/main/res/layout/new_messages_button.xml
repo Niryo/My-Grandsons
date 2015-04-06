@@ -9,6 +9,11 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/new_message_button" />
+        android:background="@drawable/normal_arrow"
+        android:id="@+id/new_message_button"
+        android:visibility="invisible"
+        android:textSize="16dp"
+        android:textStyle="bold"
+
+        />
 </LinearLayout>

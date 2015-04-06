@@ -73,9 +73,11 @@ public class myMessageProcessor implements MessageProcessor {
                 Intent new_intent = new Intent();
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
                 context.sendBroadcast(new_intent);
-                Intent pollIntent = new Intent();
-                pollIntent.setAction("POLL");
-                context.sendBroadcast(pollIntent);
+
+                Intent pollIntent=new Intent(context, WhatsApiService.class);
+                pollIntent.putExtra("command","POLL");
+                context.startService(pollIntent);
+
                 sendNotification();
 
 
@@ -120,9 +122,11 @@ public class myMessageProcessor implements MessageProcessor {
             Intent new_intent = new Intent();
             new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
             context.sendBroadcast(new_intent);
-            Intent pollIntent = new Intent();
-            pollIntent.setAction("POLL");
-            context.sendBroadcast(pollIntent);
+
+            Intent pollIntent=new Intent(context, WhatsApiService.class);
+            pollIntent.putExtra("command","POLL");
+            context.startService(pollIntent);
+
             sendNotification();
             return null;
         }
@@ -166,9 +170,11 @@ public class myMessageProcessor implements MessageProcessor {
                 Intent new_intent = new Intent();
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
                 context.sendBroadcast(new_intent);
-                Intent pollIntent = new Intent();
-                pollIntent.setAction("POLL");
-                context.sendBroadcast(pollIntent);
+
+                Intent pollIntent=new Intent(context, WhatsApiService.class);
+                pollIntent.putExtra("command","POLL");
+                context.startService(pollIntent);
+
                 sendNotification();
 
             } catch (Exception e) {

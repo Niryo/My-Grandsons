@@ -66,10 +66,6 @@ public class ScreenSlidePageFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        View button=rootView.findViewById(0);
-        if(button!=null){
-         rootView.removeView(button);
-        }
     }
 
     @Override
@@ -171,15 +167,18 @@ public class ScreenSlidePageFragment extends Fragment {
     public void attachButton(final int lastPage, final ViewPager mPager){
         LayoutInflater inflater =
                 (LayoutInflater)getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.new_messages_button, rootView,true);
         this.button = (Button) rootView.findViewById(R.id.new_message_button);
-        this.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPager.setCurrentItem(lastPage);
+        if (this.button==null) {
+            inflater.inflate(R.layout.new_messages_button, rootView, true);
+            this.button = (Button) rootView.findViewById(R.id.new_message_button);
+            this.button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPager.setCurrentItem(lastPage);
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public void removeButton(){

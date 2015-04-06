@@ -42,7 +42,7 @@ public class ScreenSlideActivity extends FragmentActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<String>  fileNameListCopy= getImagesFromStorage();
-            int position= mPager.getCurrentItem();
+            int position= fileNameList.size()-1;
             Log.w("customMsg", "adapter size before: "+mPagerAdapter.getCount());
             for(int i= position+1; i<fileNameListCopy.size(); i++){
                 fileNameList.add(fileNameListCopy.get(i));

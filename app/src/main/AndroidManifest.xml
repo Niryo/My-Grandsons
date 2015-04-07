@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,51 +23,57 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ScreenSlideActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        <activity
+            android:name=".ScreenSlideActivity"
             android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
             android:parentActivityName=".MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow">
-
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:uiOptions="splitActionBarWhenNarrow" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".SettingsActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:configChanges="orientation|screenSize"
-            android:parentActivityName=".MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow">
+        <service android:name=".WhatsApiService" />
 
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-
-        <service
-            android:name=".WhatsApiService"
-            />
-        <receiver android:name="huji.ac.il.test.BootReceiver">
+        <receiver android:name=".BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="huji.ac.il.test.PollMessagesWhileAsleep">
+        <receiver android:name=".PollMessagesWhileAsleep" >
             <intent-filter>
                 <action android:name="POLL" />
             </intent-filter>
         </receiver>
-<!--
+        <!--
         <receiver android:name="ScreenSlideActivity$IncomingMessagesReceiver" android:enabled="true">
             <intent-filter>
                 <action android:name="CUSTOM_INCOMING_MESSAGE"></action>
             </intent-filter>
         </receiver>
--->
+        -->
 
-
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/title_activity_registration"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="huji.ac.il.test.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

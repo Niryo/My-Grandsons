@@ -1,8 +1,10 @@
 package huji.ac.il.test;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -30,31 +32,30 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        boolean loggedIn = false;
-
-        String username = "972535059773";
-        String identity = "test";
-        String nickname = "nir";
-//        if(!WhatsApiService.isServiceRunning()) {
+        if(checkPassword()){
             Log.w("customMsg", "service seems to be down, restarting now:");
-            Intent intentPollMsg = new Intent(this, WhatsApiService.class);
-            intentPollMsg.putExtra("command", "START_WHATSAPP_SERVICE");
-            startService(intentPollMsg);
+            Intent intentStartService = new Intent(this, WhatsApiService.class);
+            intentStartService.putExtra("command", "START_WHATSAPP_SERVICE");
+            startService(intentStartService);
 
-//        }
-//        else{
-//            Log.w("customMsg", "service working!");
-//        }
-        startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
-        this.finish();
+
+
+            startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
+            this.finish();
+
+        }
+        else{
+            startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+
+        }
+        finish();
+
 
 
 
@@ -126,4 +127,14 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean checkPassword() {
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("information", MODE_PRIVATE);
+        String password = preferences.getString("password", "0");
+        if (password.equals("0")) {
+            return false;
+        }
+        return true;
+    }
+
 }

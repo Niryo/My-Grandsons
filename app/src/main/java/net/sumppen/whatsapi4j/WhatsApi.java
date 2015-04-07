@@ -255,7 +255,7 @@ public class WhatsApi {
 
 		Map<String, String> phone;
 		if ((phone = dissectPhone()) == null) {
-			throw new WhatsAppException("The prived phone number is not valid.");
+			throw new WhatsAppException("The provide phone number is not valid.");
 		}
 
 		if(countryCode == null) {

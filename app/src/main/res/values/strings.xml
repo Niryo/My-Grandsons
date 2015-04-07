@@ -7,5 +7,6 @@
     <string name="sound_summery">Turn notification sound on\off</string>
     <string name="vibrate_title">Vibration</string>
     <string name="vibrate_summery">Turn vibration on\off</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 
 </resources>

@@ -178,7 +178,7 @@ public class ScreenSlidePageFragment extends Fragment {
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPager.setCurrentItem(lastPage);
+                    mPager.setCurrentItem(lastPage,false);
 
                 }
             });

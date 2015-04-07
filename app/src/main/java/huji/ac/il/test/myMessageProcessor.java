@@ -73,11 +73,7 @@ public class myMessageProcessor implements MessageProcessor {
                 Intent new_intent = new Intent();
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
                 context.sendBroadcast(new_intent);
-
-                Intent pollIntent=new Intent(context, WhatsApiService.class);
-                pollIntent.putExtra("command","POLL");
-                context.startService(pollIntent);
-
+                pollMoreMessages();
                 sendNotification();
 
 
@@ -122,11 +118,7 @@ public class myMessageProcessor implements MessageProcessor {
             Intent new_intent = new Intent();
             new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
             context.sendBroadcast(new_intent);
-
-            Intent pollIntent=new Intent(context, WhatsApiService.class);
-            pollIntent.putExtra("command","POLL");
-            context.startService(pollIntent);
-
+            pollMoreMessages();
             sendNotification();
             return null;
         }
@@ -171,9 +163,7 @@ public class myMessageProcessor implements MessageProcessor {
                 new_intent.setAction("CUSTOM_INCOMING_MESSAGE");
                 context.sendBroadcast(new_intent);
 
-                Intent pollIntent=new Intent(context, WhatsApiService.class);
-                pollIntent.putExtra("command","POLL");
-                context.startService(pollIntent);
+                pollMoreMessages();
 
                 sendNotification();
 
@@ -239,6 +229,12 @@ public class myMessageProcessor implements MessageProcessor {
 		}
 	}
 
+
+    private void pollMoreMessages(){
+        Intent pollIntent=new Intent(context, WhatsApiService.class);
+        pollIntent.putExtra("command","POLL");
+        context.startService(pollIntent);
+    }
 
 
     private void sendNotification(){

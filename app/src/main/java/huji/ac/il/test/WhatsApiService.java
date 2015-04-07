@@ -2,6 +2,7 @@ package huji.ac.il.test;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import net.sumppen.whatsapi4j.MessageProcessor;
@@ -16,9 +17,12 @@ public class WhatsApiService extends IntentService {
 
 
     private void connectAndLogin() {
-        String username = "972535059773";
-        String identity = "test";
-        String nickname = "nir";
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("information", MODE_PRIVATE);
+        String username = preferences.getString("phone_number", "0");
+        String identity = "myGrandsons";
+        String nickname = "myGrandsons";
+
         try {
             wa = new WhatsApi(username, identity, nickname, getApplicationContext());
             MessageProcessor mp = new myMessageProcessor(getApplicationContext());
@@ -42,12 +46,15 @@ public class WhatsApiService extends IntentService {
 
 
         try {
-            wa.loginWithPassword("17+gaHU/Pa6VVGUgqkxQRtI/t+g=");
+//            wa.loginWithPassword("17+gaHU/Pa6VVGUgqkxQRtI/t+g=");
+            String password= preferences.getString("password", "0");
+            wa.loginWithPassword(password);
             Log.w("customMsg", "login success!");
 
 
         } catch (Exception e) {
             Log.w("customMsg", "login failed!");
+            //todo: print connection problem
             e.printStackTrace();
 
         }

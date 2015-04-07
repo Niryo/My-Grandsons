@@ -15,23 +15,11 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, "BootReciever!", Toast.LENGTH_SHORT).show();
         if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-//            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//            Intent intentPollMsg = new Intent(context, WhatsApiService.class);
-//            intentPollMsg.putExtra("command", "LISTEN_TO_MSG");
-//            PendingIntent pi = PendingIntent.getService(context, 0, intentPollMsg, 0);
-//            am.cancel(pi);
-//             am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                        SystemClock.elapsedRealtime() + seconds*1000,
-//                        seconds*1000, pi);
-
-            Intent intentPollMsg = new Intent(context, WhatsApiService.class);
-            intentPollMsg.putExtra("command", "START_WHATSAPP_SERVICE");
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            context.startService(intentPollMsg);
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Intent pollIntent= new Intent();
+            pollIntent.setAction("POLL");
+            PendingIntent operation = PendingIntent.getBroadcast(context, 0, pollIntent, 0);
+            am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+15000, 15000, operation);
         }
     }
 }

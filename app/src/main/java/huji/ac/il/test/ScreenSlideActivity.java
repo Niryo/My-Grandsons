@@ -85,6 +85,11 @@ public class ScreenSlideActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("activity got created!");
+        Log.w("customMsg", "starting server");
+        Intent intentStartWhatsApiService = new Intent(this, WhatsApiService.class);
+        intentStartWhatsApiService.putExtra("command", "START_WHATSAPP_SERVICE");
+        startService(intentStartWhatsApiService);
+
         IntentFilter intentFilter = new IntentFilter("CUSTOM_INCOMING_MESSAGE");
         registerReceiver(this.IncomingMessagesReceiver, intentFilter);
         View decorView = getWindow().getDecorView();
@@ -100,6 +105,9 @@ public class ScreenSlideActivity extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), fileNameList);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(this.preferences.getInt("currentItem", 0));
+//        if("NOTIFICATION".equals(getIntent().getStringExtra("info"))){ //todo: save last seen page and start from it
+//            mPager.setCurrentItem(this.fileNameList.size()-1);
+//        }
 
     }
 

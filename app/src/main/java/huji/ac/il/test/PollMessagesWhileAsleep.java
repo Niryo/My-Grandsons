@@ -21,9 +21,7 @@ import android.os.Message;
             if("POLL".equals(intent.getAction())) {
                Intent pollIntent=new Intent(context, WhatsApiService.class);
                 pollIntent.putExtra("command","POLL");
-
                 context.startService(pollIntent);
-
             }
         }
     }

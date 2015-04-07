@@ -240,7 +240,7 @@ public class myMessageProcessor implements MessageProcessor {
     private void sendNotification(){
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.icon1)
+                        .setSmallIcon(R.drawable.notification_icon)
                         .setContentTitle("My notification")
                         .setContentText("Hello World!");
 

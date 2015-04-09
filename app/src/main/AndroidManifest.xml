@@ -47,6 +47,7 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <service android:name=".WakeAndPollService" />
         <service android:name=".WhatsApiService" />
 
         <receiver android:name=".BootReceiver" >

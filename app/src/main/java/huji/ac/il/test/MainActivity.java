@@ -32,19 +32,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity { //todo: set font sizes, save defualt picture for the first page , clean code,  check why notification open activity twice, playbutton size, leave group, check wakeForPoll, make service go to sleep after some time that screen is off.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(checkPassword()){
-            Log.w("customMsg", "service seems to be down, restarting now:");
-            Intent intentStartService = new Intent(this, WhatsApiService.class);
-            intentStartService.putExtra("command", "START_WHATSAPP_SERVICE");
-            startService(intentStartService);
-
-
 
             startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
             this.finish();

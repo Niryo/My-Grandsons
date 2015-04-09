@@ -36,6 +36,10 @@ public class RegistrationActivity extends Activity {
         enterCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences preferences = getApplicationContext().getSharedPreferences("information", MODE_PRIVATE); //todo: remove
+                SharedPreferences.Editor ed = preferences.edit();
+                ed.putString("phone_number","972535059773");
+                ed.commit();
                 setEnterCodeLayout();
             }
         });
@@ -126,7 +130,7 @@ public class RegistrationActivity extends Activity {
                                     Intent pollIntent= new Intent();
                                     pollIntent.setAction("POLL");
                                     PendingIntent operation = PendingIntent.getBroadcast( getApplicationContext(), 0, pollIntent, 0);
-                                    am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+15000, 15000, operation);
+                                    am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+150000, 150000, operation);
 
                                     startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                                     finish();

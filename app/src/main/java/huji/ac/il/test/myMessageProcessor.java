@@ -1,6 +1,5 @@
 package huji.ac.il.test;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -227,12 +225,15 @@ public class myMessageProcessor implements MessageProcessor {
 			}
 			
 		}
+
+        pollMoreMessages();
+        pollMoreMessages();
 	}
 
 
     private void pollMoreMessages(){
         Intent pollIntent=new Intent(context, WhatsApiService.class);
-        pollIntent.putExtra("command","POLL");
+        pollIntent.putExtra("command","FAST_POLL");
         context.startService(pollIntent);
     }
 

@@ -1,30 +1,24 @@
 package huji.ac.il.test;
 
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -136,6 +130,17 @@ public class ScreenSlidePageFragment extends Fragment {
                 rootView = (ViewGroup) inflater
                         .inflate(R.layout.fragment_text_layout, container, false);
                 Log.w("customMsg", "reading text file");
+
+//                Button test= (Button) rootView.findViewById(R.id.buttonTest);
+//                test.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.w("customMsg", "button clicked, trying to poll mesages");
+//                        Intent pollIntent = new Intent(getActivity().getApplicationContext(), WhatsApiService.class);
+//                        pollIntent.putExtra("command","FAST_POLL");
+//                        getActivity().getApplicationContext().startService(pollIntent);
+//                    }
+//                });
 
                 File file = new File(name);
                 StringBuilder text = new StringBuilder();

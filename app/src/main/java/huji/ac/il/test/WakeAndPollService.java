@@ -1,22 +1,19 @@
 package huji.ac.il.test;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.IBinder;
 import android.util.Log;
 
 import net.sumppen.whatsapi4j.MessageProcessor;
 import net.sumppen.whatsapi4j.WhatsApi;
 
-/**
- * Created by Nir on 10/04/2015.
- */
-public class WhatsApiService extends Service {
-
-
-
+public class WakeAndPollService extends IntentService {
     private WhatsApi wa;
+
+    public WakeAndPollService() {
+        super("WakeAndPollService");
+    }
 
 
     private void connectAndLogin() {
@@ -68,56 +65,28 @@ public class WhatsApiService extends Service {
         try {
             wa.pollMessages();
             wa.pollMessages();
-            wa.sendPresence();
         } catch (Exception e) {
             Log.w("customMsg", "pulling error!");
-        }
-    }
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.w("customMsg", "service destroyed");
-
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-        final int startIdCopy=startId;
-        if ("START_WHATSAPP_SERVICE".equals(intent.getStringExtra("command"))) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    connectAndLogin();
-                    while(true) {
-                        pollMessage();
-                        try {
-                            Thread.sleep(15000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }).start();
-
-        }else if("FAST_POLL".equals(intent.getStringExtra("command"))){
-            Log.w("customMsg", "Fast poll");
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    pollMessage();
-                }
-            }).start();
 
         }
-
-
-        return START_NOT_STICKY;
-
     }
+
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+if ("POLL".equals(intent.getStringExtra("command"))) {
+            Log.w("customMsg", "service got command to pull messages");
+            connectAndLogin();
+            pollMessage();
+    try {
+        Thread.sleep(15000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    stopSelf();
+        }
+    }
+
 }
+
+

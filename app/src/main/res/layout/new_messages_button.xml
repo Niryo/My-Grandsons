@@ -9,7 +9,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/normal_arrow"
+        android:background="@drawable/arrow"
         android:id="@+id/new_message_button"
         android:visibility="invisible"
         android:textSize="16dp"

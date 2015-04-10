@@ -102,8 +102,6 @@ public class myMessageProcessor implements MessageProcessor {
 
             BufferedWriter out;
             try {
-                String test1=rootDir.toString();
-                String test2= rootDir.getAbsolutePath();
                 FileWriter fileWriter = new FileWriter(context.getExternalFilesDir(null).getAbsolutePath()+File.separator + "savedFiles"+File.separator + sdf.format(calendar.getTime()) + ".txt");
                 out = new BufferedWriter(fileWriter);
                 out.write(text[0]);

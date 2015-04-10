@@ -23,6 +23,13 @@ import net.sumppen.whatsapi4j.WhatsAppException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 
 public class RegistrationActivity extends Activity {
     private WhatsApi wa=null;
@@ -131,7 +138,7 @@ public class RegistrationActivity extends Activity {
                                     pollIntent.setAction("POLL");
                                     PendingIntent operation = PendingIntent.getBroadcast( getApplicationContext(), 0, pollIntent, 0);
                                     am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+150000, 150000, operation);
-
+                                    saveManualPage();
                                     startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                                     finish();
                                 }
@@ -172,5 +179,25 @@ public class RegistrationActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveManualPage(){
+        final String manual="Hello grandson!\n";
+        Calendar calendar = new GregorianCalendar();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+        File rootDir = new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+File.separator + "savedFiles");
+        if( !rootDir.exists()){//todo: move this check to the main activity
+            rootDir.mkdir();
+        }
+
+        BufferedWriter out;
+        try {
+            FileWriter fileWriter = new FileWriter(getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+File.separator + "savedFiles"+File.separator + sdf.format(calendar.getTime()) + ".txt");
+            out = new BufferedWriter(fileWriter);
+            out.write(manual);
+            out.close();
+        }catch(Exception e){
+            Log.w("customMsg", "can't write to file!");
+        }
     }
 }

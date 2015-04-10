@@ -19,7 +19,7 @@ public class BootReceiver extends BroadcastReceiver {
             Intent pollIntent= new Intent();
             pollIntent.setAction("POLL");
             PendingIntent operation = PendingIntent.getBroadcast(context, 0, pollIntent, 0);
-            am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+150000, 150000, operation);
+            am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+900000, 900000, operation);
         }
     }
 }

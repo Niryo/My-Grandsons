@@ -32,7 +32,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 
-public class MainActivity extends Activity { //todo: set font sizes, save defualt picture for the first page , clean code,  check why notification open activity twice, playbutton size, leave group, check wakeForPoll, make service go to sleep after some time that screen is off.
+public class MainActivity extends Activity { //todo: set font sizes, save defualt picture for the first page , clean code,  check why notification open activity twice, playbutton size, leave group,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

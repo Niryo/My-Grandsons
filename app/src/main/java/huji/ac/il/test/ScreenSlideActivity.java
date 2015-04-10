@@ -30,6 +30,25 @@ public class ScreenSlideActivity extends FragmentActivity {
     private ViewPager mPager;
     private ScreenSlidePagerAdapter mPagerAdapter;
     private ArrayList<String> fileNameList;
+
+    private BroadcastReceiver ScreenReceiver= new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(Intent.ACTION_SCREEN_OFF.equals(intent.getAction())){
+                Intent killIntent= new Intent(context,WhatsApiService.class );
+                killIntent.putExtra("command", "KILL");
+                context.startService(killIntent);
+
+            }
+
+            if(intent.ACTION_SCREEN_ON.equals(intent.getAction())){
+                Intent startIntent= new Intent(context, WhatsApiService.class);
+                startIntent.putExtra("command","START_WHATSAPP_SERVICE");
+                context.startService(startIntent);
+            }
+        }
+    };
+
     private BroadcastReceiver IncomingMessagesReceiver = new BroadcastReceiver() {
 
         @Override
@@ -85,6 +104,11 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         IntentFilter intentFilter = new IntentFilter("CUSTOM_INCOMING_MESSAGE");
         registerReceiver(this.IncomingMessagesReceiver, intentFilter);
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        registerReceiver(this.ScreenReceiver , filter);
+
+
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;

@@ -13,9 +13,7 @@ import net.sumppen.whatsapi4j.WhatsApi;
  * Created by Nir on 10/04/2015.
  */
 public class WhatsApiService extends Service {
-
-
-
+    private boolean running=true;
     private WhatsApi wa;
 
 
@@ -94,7 +92,7 @@ public class WhatsApiService extends Service {
                 @Override
                 public void run() {
                     connectAndLogin();
-                    while(true) {
+                    while(running) {
                         pollMessage();
                         try {
                             Thread.sleep(15000);
@@ -102,6 +100,8 @@ public class WhatsApiService extends Service {
                             e.printStackTrace();
                         }
                     }
+                    Log.w("customMsg", "ending pulling loop");
+                    stopSelf();
                 }
             }).start();
 
@@ -114,6 +114,25 @@ public class WhatsApiService extends Service {
                 }
             }).start();
 
+        } else if("KILL".equals(intent.getStringExtra("command"))){
+            Log.w("customMsg", "killing the server");
+            this.running=false;
+            stopSelf();
+        } else if("WAKE_AND_POLL".equals(intent.getStringExtra("command"))){
+            Log.w("customMsg", "WAKE AND POLL");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    connectAndLogin();
+                    pollMessage();
+                    try {
+                        Thread.sleep(10000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    stopSelf();
+                }
+            }).start();
         }
 
 

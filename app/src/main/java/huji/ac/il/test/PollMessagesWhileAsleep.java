@@ -18,8 +18,8 @@ import android.content.Intent;
         @Override
         public void onReceive(Context context, Intent intent) {
             if("POLL".equals(intent.getAction())) {
-               Intent pollIntent=new Intent(context, WakeAndPollService.class);
-                pollIntent.putExtra("command","POLL");
+               Intent pollIntent=new Intent(context, WhatsApiService.class);
+                pollIntent.putExtra("command","WAKE_AND_POLL");
                 context.startService(pollIntent);
             }
         }

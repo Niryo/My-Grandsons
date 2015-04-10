@@ -131,16 +131,6 @@ public class ScreenSlidePageFragment extends Fragment {
                         .inflate(R.layout.fragment_text_layout, container, false);
                 Log.w("customMsg", "reading text file");
 
-//                Button test= (Button) rootView.findViewById(R.id.buttonTest);
-//                test.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.w("customMsg", "button clicked, trying to poll mesages");
-//                        Intent pollIntent = new Intent(getActivity().getApplicationContext(), WhatsApiService.class);
-//                        pollIntent.putExtra("command","FAST_POLL");
-//                        getActivity().getApplicationContext().startService(pollIntent);
-//                    }
-//                });
 
                 File file = new File(name);
                 StringBuilder text = new StringBuilder();

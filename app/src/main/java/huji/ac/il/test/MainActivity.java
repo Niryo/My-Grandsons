@@ -15,7 +15,7 @@ public class MainActivity extends Activity { //todo: set font sizes , clean code
     public static final String SHARED_PASSWORD = "SHARED_PASSWORD";
     public static final String NOT_EXISTS = "NOT_EXISTS";
     private final String SAVED_FILES_DIR = "Saved Files";
-    public static String SAVED_FILES_DIR_PATH = null;
+    public static String SAVED_FILES_DIR_PATH = null; //will be set on create
 
 
 

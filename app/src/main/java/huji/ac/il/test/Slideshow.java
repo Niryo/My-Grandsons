@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 
 public class Slideshow extends FragmentActivity {
-    private final String NEW_INCOMING_MESSAGE = "NEW_INCOMING_MESSAGE";
+    public static final String NEW_INCOMING_MESSAGE = "NEW_INCOMING_MESSAGE";
     private final int SPACE_BETWEEN_PAGES = 15;
     private final String SAVED_CURRENT_PAGE = "SAVED_CURRENT_PAGE";
     private final int NOT_EXISTS = 0;

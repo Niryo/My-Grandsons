@@ -32,7 +32,7 @@ public class WhatsApiService extends Service {
 
         try {
             wa = new WhatsApi(username, identity, nickname, getApplicationContext());
-            MessageProcessor mp = new myMessageProcessor(getApplicationContext());
+            MessageProcessor mp = new MyGrandsonsMessageProcessor(getApplicationContext());
             wa.setNewMessageBind(mp);
         } catch (Exception e) {
             Log.w("customMsg", "can't create whatsApi object!");

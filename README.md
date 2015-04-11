@@ -55,11 +55,6 @@ Swipe left:            |  New message:
 
 
 
-and landscape:
-
-![alt tag](https://raw.githubusercontent.com/NirHUJI/My-Grandsons/master/screenShots/ScreenLock1.jpg)
-
-
 
 
 

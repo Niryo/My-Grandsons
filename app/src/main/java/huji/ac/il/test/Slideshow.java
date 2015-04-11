@@ -2,25 +2,16 @@ package huji.ac.il.test;
 
 
 
-
-
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-
-import net.sumppen.whatsapi4j.WhatsApi;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -133,10 +124,6 @@ public class Slideshow extends FragmentActivity {
         viewPager.setAdapter(viewPagerAdapter);
         //Set viewPager Current page based on saved current page:
         viewPager.setCurrentItem(this.preferences.getInt(SAVED_CURRENT_PAGE, NOT_EXISTS));
-//        if("NOTIFICATION".equals(getIntent().getStringExtra("info"))){ //todo: save last seen page and start from it
-//            viewPager.setCurrentItem(this.fileNameList.size()-1);
-//        }
-
     }
 
     @Override

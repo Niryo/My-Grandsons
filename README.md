@@ -23,7 +23,10 @@ for example:
 
 and the postcard on the grandma phone:
 
-![alt tag](https://raw.githubusercontent.com/NirHUJI/My-Grandsons/master/screenShots/ScreenLock2.jpg)
+vertical:            | landscape :
+:-------------------------:|:-------------------------:
+![](https://raw.githubusercontent.com/NirHUJI/My-Grandsons/master/screenShots/ScreenLock2.jpg)  |  ![](https://raw.githubusercontent.com/NirHUJI/My-Grandsons/master/screenShots/ScreenLock5.jpg)
+
 
 
 

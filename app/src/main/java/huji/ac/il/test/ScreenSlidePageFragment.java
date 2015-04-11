@@ -31,7 +31,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ScreenSlidePageFragment extends Fragment {
 
-    private int currentPage;
     private String fileName;
     private ViewGroup rootView = null;
     private Button button;
@@ -44,8 +43,6 @@ public class ScreenSlidePageFragment extends Fragment {
     public static ScreenSlidePageFragment create(String fileName) {
         ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
         fragment.setFileName(fileName);
-
-
         return fragment;
     }
 
@@ -67,13 +64,10 @@ public class ScreenSlidePageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout containing a title and body text.
 
-
-        // Set the title view to show the page number.
         String name = this.fileName;
-//        ViewGroup rootView=null;
         if (name != null) {
+            //inflate picture:
             if (name.endsWith(".jpg")) {
                 rootView = (ViewGroup) inflater
                         .inflate(R.layout.fragment_image_layout, container, false);
@@ -81,28 +75,35 @@ public class ScreenSlidePageFragment extends Fragment {
                 Bitmap myBitmap = BitmapFactory.decodeFile(name);
                 ImageView view = (ImageView) rootView.findViewById(R.id.imageView);
                 view.setImageBitmap(myBitmap);
-                PhotoViewAttacher mAttacher = new PhotoViewAttacher(view);
+                //attach zoom capabilities:
+                new PhotoViewAttacher(view);
             }
+            //inflate video:
             if (name.endsWith(".mp4")) {
                 rootView = (ViewGroup) inflater
                         .inflate(R.layout.fragment_video_layout, container, false);
 
                 final VideoView video = (VideoView) rootView.findViewById(R.id.videoView);
-//                final MediaController mc = new MediaController(getActivity());
-//                mc.setAnchorView(video);
-//                video.setMediaController(mc);
                 video.setVideoURI(Uri.parse(name));
                 video.requestFocus();
+                //set the play button:
                 final Button playButton = (Button) rootView.findViewById(R.id.playButton);
                 playButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         v.setVisibility(View.INVISIBLE);
                         video.start();
-
+                    }
+                });
+                //when video complete, bring back the play button:
+                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        playButton.setVisibility(View.VISIBLE);
                     }
                 });
 
-                final View parent = (View) playButton.getParent();  // button: the view you want to enlarge hit area
+                //enlarge play-button hit area:
+                final View parent = (View) playButton.getParent();
                 parent.post(new Runnable() {
                     public void run() {
                         final Rect rect = new Rect();
@@ -115,22 +116,13 @@ public class ScreenSlidePageFragment extends Fragment {
                     }
                 });
 
-                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        playButton.setVisibility(View.VISIBLE);
-                    }
-                });
-
                 video.seekTo(100);
-
-
             }
+
+            //inflate text:
             if (name.endsWith(".txt")) {
                 rootView = (ViewGroup) inflater
                         .inflate(R.layout.fragment_text_layout, container, false);
-                Log.w("customMsg", "reading text file");
-
 
                 File file = new File(name);
                 StringBuilder text = new StringBuilder();
@@ -143,9 +135,8 @@ public class ScreenSlidePageFragment extends Fragment {
                     }
                     br.close();
                 } catch (Exception e) {
-                    Log.w("customMsg", "can't read text file");
+                    //todo
                 }
-
 
                 TextView text_view = (TextView) rootView.findViewById(R.id.textView);
                 text_view.setText(text);
@@ -157,28 +148,35 @@ public class ScreenSlidePageFragment extends Fragment {
 
     }
 
-
+    /**
+     * set the name of the file that the fragment is showing.
+     * @param fileName file name
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public void attachButton(final int lastPage, final ViewPager mPager) {
+    /**
+     * Attach a new-message button to the fragment
+     * when clicked, the button will set the viewPager to the first new page.
+     * @param lastPage the last page of the viewPager.
+     * @param viewPager
+     */
+    public void attachButton(final int lastPage, final ViewPager viewPager) {
         LayoutInflater inflater =
                 (LayoutInflater) getActivity().getApplicationContext().getSystemService(getActivity().getApplicationContext().LAYOUT_INFLATER_SERVICE);
         this.button = (Button) rootView.findViewById(R.id.new_message_button);
         if (this.button == null) {
-
             inflater.inflate(R.layout.new_messages_button, rootView, true);
             this.button = (Button) rootView.findViewById(R.id.new_message_button);
             this.button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPager.setCurrentItem(lastPage,true);
-
+                    viewPager.setCurrentItem(lastPage, true);
                 }
             });
 
-//           this.button.startAnimation(AnimationUtils.loadAnimation(getActivity(),R.anim.slide_in_top));
+            //set button animation:
             this.button.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_left));
             this.button.setVisibility(View.VISIBLE);
         }
@@ -186,14 +184,15 @@ public class ScreenSlidePageFragment extends Fragment {
         this.msgCounter++;
     }
 
+    /**
+     * Remove the attached button
+     */
     public void removeButton() {
         if (this.button != null) {
             ViewGroup parent = (ViewGroup) this.button.getParent();
             parent.removeView(this.button);
             this.msgCounter = 1;
         }
-
     }
-
 
 }

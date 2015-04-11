@@ -10,10 +10,14 @@ import android.view.MenuItem;
 import java.io.File;
 
 
-public class MainActivity extends Activity { //todo: set font sizes , clean code, playbutton size, leave group, check for saved files dir.
+public class MainActivity extends Activity { //todo: set font sizes , clean code, playbutton size, leave group, check for saved files dir, check new boot receiver alarm, test remove item at view pager.
     public static final String SHARED_INFORMATION = "SHARED_INFORMATION";
     public static final String SHARED_PASSWORD = "SHARED_PASSWORD";
     public static final String NOT_EXISTS = "NOT_EXISTS";
+    public static final String SHARED_PHONE_NUMBER = "phone_number";
+    public static final String IDENTITY = "myGrandsons";
+    public static final String NICK_NAME = "myGrandsons";
+
     private final String SAVED_FILES_DIR = "Saved Files";
     public static String SAVED_FILES_DIR_PATH = null; //will be set on create
 

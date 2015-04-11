@@ -10,7 +10,7 @@ import net.sumppen.whatsapi4j.MessageProcessor;
 import net.sumppen.whatsapi4j.WhatsApi;
 
 /**
- * Created by Nir on 10/04/2015.
+ * This class encapsulates the WhatsApi as a service
  */
 public class WhatsApiService extends Service {
     public static final String ACTION = "ACTION";
@@ -20,61 +20,46 @@ public class WhatsApiService extends Service {
     public static final String ACTION_WAKE_AND_POLL= "ACTION_WAKE_AND_POLL";
 
     private boolean running=true;
+    private int TIME_TO_SLEEP= 15000;
     private WhatsApi wa;
 
-
+    /**
+     * Connects to the whatsApp server and login.
+     */
     private void connectAndLogin() {
 
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("information", MODE_PRIVATE);
-        String username = preferences.getString("phone_number", "0");
-        String identity = "myGrandsons";
-        String nickname = "myGrandsons";
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(MainActivity.SHARED_INFORMATION, MODE_PRIVATE);
+        String username = preferences.getString(MainActivity.SHARED_PHONE_NUMBER, MainActivity.NOT_EXISTS);
+        String identity = MainActivity.IDENTITY;
+        String nickname = MainActivity.NICK_NAME;
 
         try {
             wa = new WhatsApi(username, identity, nickname, getApplicationContext());
             MessageProcessor mp = new MyGrandsonsMessageProcessor(getApplicationContext());
             wa.setNewMessageBind(mp);
-        } catch (Exception e) {
-            Log.w("customMsg", "can't create whatsApi object!");
-            e.printStackTrace();
-        }
-
-        //============ login===============
-
-
-        try {
             wa.connect();
-            Log.w("customMsg", "connect success!");
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-
-        try {
-//            wa.loginWithPassword("17+gaHU/Pa6VVGUgqkxQRtI/t+g=");
-            String password= preferences.getString("password", "0");
+            //login:
+            String password= preferences.getString(MainActivity.SHARED_PASSWORD, MainActivity.NOT_EXISTS);
             wa.loginWithPassword(password);
-            Log.w("customMsg", "login success!");
 
 
         } catch (Exception e) {
-            Log.w("customMsg", "login failed!");
-            //todo: print connection problem
+            //todo
             e.printStackTrace();
-
         }
     }
 
+    /**
+     * Polls one message
+     */
     private void pollMessage() {
-        Log.w("customMsg", "pulling!");
+        //we poll twice- first time for getting the headers and second time for the actual message.
         try {
             wa.pollMessages();
             wa.pollMessages();
             wa.sendPresence();
         } catch (Exception e) {
-            Log.w("customMsg", "pulling error!");
+            //todo
         }
     }
     @Override
@@ -85,34 +70,31 @@ public class WhatsApiService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.w("customMsg", "service destroyed");
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         final int startIdCopy=startId;
-        if ("START_WHATSAPP_SERVICE".equals(intent.getStringExtra("command"))) {
+        if (WhatsApiService.ACTION_START.equals(intent.getStringExtra(WhatsApiService.ACTION))) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     connectAndLogin();
+                    //we run in loop until the service will get a kill command and stop the loop:
                     while(running) {
                         pollMessage();
                         try {
-                            Thread.sleep(15000);
+                            Thread.sleep(TIME_TO_SLEEP);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
-                    Log.w("customMsg", "ending pulling loop");
                     stopSelf();
                 }
             }).start();
 
-        }else if("FAST_POLL".equals(intent.getStringExtra("command"))){
-            Log.w("customMsg", "Fast poll");
+        }else if(WhatsApiService.ACTION_FAST_POLL.equals(intent.getStringExtra(WhatsApiService.ACTION))){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -120,19 +102,18 @@ public class WhatsApiService extends Service {
                 }
             }).start();
 
-        } else if("KILL".equals(intent.getStringExtra("command"))){
-            Log.w("customMsg", "killing the server");
+        } else if(WhatsApiService.ACTION_KILL.equals(intent.getStringExtra(WhatsApiService.ACTION))){
+            //kill the pulling loop:
             this.running=false;
             stopSelf();
-        } else if("WAKE_AND_POLL".equals(intent.getStringExtra("command"))){
-            Log.w("customMsg", "WAKE AND POLL");
+        } else if(WhatsApiService.ACTION_WAKE_AND_POLL.equals(intent.getStringExtra(WhatsApiService.ACTION))){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     connectAndLogin();
                     pollMessage();
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(TIME_TO_SLEEP);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

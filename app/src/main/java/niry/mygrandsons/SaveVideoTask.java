@@ -1,7 +1,6 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.content.Context;
-import android.content.Intent;
 
 import java.io.File;
 import java.io.FileOutputStream;

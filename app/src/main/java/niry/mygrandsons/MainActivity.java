@@ -1,4 +1,4 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +46,7 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
         }
         if(checkPassword()){
             if(checkAndSetRootDir()){
-            startActivity(new Intent(MainActivity.this, Slideshow.class));
+            startActivity(new Intent(MainActivity.this, SlideshowActivity.class));
             this.finish();
 
             }else{

@@ -1,8 +1,6 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 
 import java.io.BufferedWriter;
 import java.io.File;

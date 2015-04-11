@@ -1,4 +1,4 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,9 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.widget.Toast;
-
-import net.sumppen.whatsapi4j.WhatsApi;
 
 /**
  * Receive the boot-complete action and set the wakeup alarm

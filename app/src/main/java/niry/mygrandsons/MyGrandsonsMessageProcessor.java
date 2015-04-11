@@ -1,12 +1,8 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 
 import android.content.Context;
 import android.content.Intent;
-
-
-
-import java.util.Date;
 
 
 import net.sumppen.whatsapi4j.MessageProcessor;

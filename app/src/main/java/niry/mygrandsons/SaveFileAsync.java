@@ -1,4 +1,4 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+
+
 
 
 /**
@@ -25,7 +27,7 @@ public abstract class SaveFileAsync extends AsyncTask<String, Void ,Void> {
 
 public void sendBroadcastIncomingMessage(){
     Intent intent = new Intent();
-    intent.setAction(Slideshow.NEW_INCOMING_MESSAGE);
+    intent.setAction(SlideshowActivity.NEW_INCOMING_MESSAGE);
     context.sendBroadcast(intent);
 }
 
@@ -40,7 +42,7 @@ public void sendBroadcastIncomingMessage(){
                         .setContentText(NOTIFICATION_CONTENT);
 
         int id = 0;
-        Intent resultIntent = new Intent(context, Slideshow.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 // Adds the Intent to the top of the stack
         stackBuilder.addNextIntent(resultIntent);

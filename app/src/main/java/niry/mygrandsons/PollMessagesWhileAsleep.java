@@ -1,4 +1,4 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

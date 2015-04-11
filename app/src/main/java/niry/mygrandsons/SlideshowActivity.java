@@ -1,4 +1,4 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 
 
@@ -17,7 +17,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-public class Slideshow extends FragmentActivity {
+
+
+public class SlideshowActivity extends FragmentActivity {
     public static final String NEW_INCOMING_MESSAGE = "NEW_INCOMING_MESSAGE";
     private final int SPACE_BETWEEN_PAGES = 15;
     private final String SAVED_CURRENT_PAGE = "SAVED_CURRENT_PAGE";

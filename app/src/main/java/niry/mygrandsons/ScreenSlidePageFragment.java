@@ -1,7 +1,6 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -25,6 +23,7 @@ import android.widget.VideoView;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+
 
 import uk.co.senab.photoview.PhotoViewAttacher;
 

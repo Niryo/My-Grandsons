@@ -1,10 +1,9 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
-import android.util.Log;
 
 import net.sumppen.whatsapi4j.MessageProcessor;
 import net.sumppen.whatsapi4j.WhatsApi;

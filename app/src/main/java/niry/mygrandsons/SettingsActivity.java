@@ -1,4 +1,4 @@
-package huji.ac.il.test;
+package niry.mygrandsons;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.Button;
 
 import java.util.List;
+
+
 
 public class SettingsActivity extends PreferenceActivity {
     @Override

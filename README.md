@@ -35,6 +35,11 @@ and the postcard on the grandma phone:
 
 
 
+More screenshots:
+
+
+
+
 
 Swipe left:            |  New message:
 :-------------------------:|:-------------------------:

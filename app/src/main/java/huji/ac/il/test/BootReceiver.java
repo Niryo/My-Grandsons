@@ -14,7 +14,7 @@ import net.sumppen.whatsapi4j.WhatsApi;
  * Receive the boot-complete action and set the wakeup alarm
  */
 public class BootReceiver extends BroadcastReceiver {
-    private final int TIME_INTERVAL= 900000;
+    public final int TIME_INTERVAL= 900000;
 
     @Override
     public void onReceive(Context context, Intent intent) {

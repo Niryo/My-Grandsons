@@ -248,7 +248,7 @@ public class myMessageProcessor implements MessageProcessor {
         resultIntent.putExtra("info","NOTIFICATION");
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 // Adds the back stack
-        stackBuilder.addParentStack(ScreenSlideActivity.class);
+//        stackBuilder.addParentStack(ScreenSlideActivity.class);
 // Adds the Intent to the top of the stack
         stackBuilder.addNextIntent(resultIntent);
 // Gets a PendingIntent containing the entire back stack

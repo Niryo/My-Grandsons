@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
+
 
 public class MainActivity extends Activity { //todo: set font sizes , clean code, playbutton size, leave group,
-    private static final String SHARED_INFORMATION = "SHARED_INFORMATION";
-    private static final String SHARED_PASSWORD = "SHARED_PASSWORD";
-    private static final String NOT_EXIST = "NOT_EXIST";
+    public static final String SHARED_INFORMATION = "SHARED_INFORMATION";
+    public static final String SHARED_PASSWORD = "SHARED_PASSWORD";
+    public static final String NOT_EXISTS = "NOT_EXISTS";
+    private final String SAVED_FILES_DIR= "Saved Files";
 
 
 
@@ -20,7 +23,7 @@ public class MainActivity extends Activity { //todo: set font sizes , clean code
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(checkPassword()){
-            startActivity(new Intent(MainActivity.this, ScreenSlideActivity.class));
+            startActivity(new Intent(MainActivity.this, Slideshow.class));
             this.finish();
         }
         else{
@@ -53,11 +56,15 @@ public class MainActivity extends Activity { //todo: set font sizes , clean code
      */
     private boolean checkPassword() {
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(SHARED_INFORMATION, MODE_PRIVATE);
-        String password = preferences.getString(SHARED_PASSWORD, NOT_EXIST);
-        if (password.equals(NOT_EXIST)) {
+        String password = preferences.getString(SHARED_PASSWORD, NOT_EXISTS);
+        if (password.equals(NOT_EXISTS)) {
             return false;
         }
         return true;
+    }
+
+    public static String getSavedFilesDirectoryPath(){
+        return getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + SAVED_FILES_DIR;
     }
 
 }

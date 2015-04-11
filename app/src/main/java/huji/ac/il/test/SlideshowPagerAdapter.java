@@ -12,13 +12,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 
-public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+public class SlideshowPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<String> fileNames;
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
 
 
-    public ScreenSlidePagerAdapter(FragmentManager fragmentManager, ArrayList<String> fileNameList) {
+    public SlideshowPagerAdapter(FragmentManager fragmentManager, ArrayList<String> fileNameList) {
         super(fragmentManager);
         this.fileNames=fileNameList;
 
@@ -42,7 +42,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         return fileNames.size();
     }
 
-    public Fragment getRegisteredFragment(int position) {
+    public Fragment getFragment(int position) {
         return registeredFragments.get(position);
     }
 }

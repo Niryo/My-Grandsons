@@ -244,7 +244,7 @@ public class myMessageProcessor implements MessageProcessor {
                         .setContentText("Hello World!");
 
         int id = 0;
-        Intent resultIntent = new Intent(context, ScreenSlideActivity.class);
+        Intent resultIntent = new Intent(context, Slideshow.class);
         resultIntent.putExtra("info","NOTIFICATION");
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 // Adds the back stack

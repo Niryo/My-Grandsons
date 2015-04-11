@@ -13,6 +13,12 @@ import net.sumppen.whatsapi4j.WhatsApi;
  * Created by Nir on 10/04/2015.
  */
 public class WhatsApiService extends Service {
+    public static final String ACTION = "ACTION";
+    public static final String ACTION_KILL= "ACTION_KILL";
+    public static final String ACTION_START= "ACTION_START";
+    public static final String ACTION_FAST_POLL= "ACTION_FAST_POLL";
+    public static final String ACTION_WAKE_AND_POLL= "ACTION_WAKE_AND_POLL";
+
     private boolean running=true;
     private WhatsApi wa;
 

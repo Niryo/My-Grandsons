@@ -10,11 +10,12 @@ import android.view.MenuItem;
 import java.io.File;
 
 
-public class MainActivity extends Activity { //todo: set font sizes , clean code, playbutton size, leave group,
+public class MainActivity extends Activity { //todo: set font sizes , clean code, playbutton size, leave group, check for saved files dir.
     public static final String SHARED_INFORMATION = "SHARED_INFORMATION";
     public static final String SHARED_PASSWORD = "SHARED_PASSWORD";
     public static final String NOT_EXISTS = "NOT_EXISTS";
-    private final String SAVED_FILES_DIR= "Saved Files";
+    private final String SAVED_FILES_DIR = "Saved Files";
+    public static String SAVED_FILES_DIR_PATH = null;
 
 
 
@@ -23,6 +24,7 @@ public class MainActivity extends Activity { //todo: set font sizes , clean code
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(checkPassword()){
+            setSavedFilesDirectoryPath();
             startActivity(new Intent(MainActivity.this, Slideshow.class));
             this.finish();
         }
@@ -63,8 +65,8 @@ public class MainActivity extends Activity { //todo: set font sizes , clean code
         return true;
     }
 
-    public static String getSavedFilesDirectoryPath(){
-        return getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + SAVED_FILES_DIR;
+    private void setSavedFilesDirectoryPath(){
+        this.SAVED_FILES_DIR_PATH = getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + SAVED_FILES_DIR;
     }
 
 }

@@ -150,7 +150,7 @@ public class Slideshow extends FragmentActivity {
     private ArrayList<String> getImagesFromStorage()
     {
         ArrayList<String> fileNameList= new ArrayList<String>();
-        File dir = new File(MainActivity.getSavedFilesDirectoryPath());
+        File dir = new File(MainActivity.SAVED_FILES_DIR_PATH);
 
         File[] listOfFiles = dir.listFiles();
         for (int i = 0; i <listOfFiles.length; i++)

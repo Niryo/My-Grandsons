@@ -18,7 +18,9 @@ after registering the phone, you need to add your grandma as a regular whatsapp 
 sending a postcard to your grandparents:
 if you write a message in your family group that start with "##", your grandparents will receive it as a postcard. 
 for example:
+
 "## Hello grandma! I am having a great time in Mexico! miss you a lot, B.Obama" 
+
 and the postcard on the grandma phone:
 
 ![alt tag](https://raw.githubusercontent.com/NirHUJI/My-Grandsons/master/screenShots/ScreenLock2.jpg)

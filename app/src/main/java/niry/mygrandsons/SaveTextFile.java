@@ -27,11 +27,10 @@ public class SaveTextFile extends SaveFileAsync {
         //the name of the file will be the current time:
         Calendar calendar = new GregorianCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-
-        File rootDir = new File(MainActivity.SAVED_FILES_DIR_PATH);
+        File rootDir = new File(MainActivity.getSaveFilePath(context));
         try {
 
-            FileWriter fileWriter = new FileWriter(MainActivity.SAVED_FILES_DIR_PATH + File.separator + sdf.format(calendar.getTime()) + ".txt");
+            FileWriter fileWriter = new FileWriter(rootDir + File.separator + sdf.format(calendar.getTime()) + ".txt");
             BufferedWriter out = new BufferedWriter(fileWriter);
             out.write(text[0]);
             out.close();

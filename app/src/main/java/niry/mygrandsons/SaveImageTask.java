@@ -32,7 +32,7 @@ public class SaveImageTask extends SaveFileAsync {
             //the name of the file will be the current time:
             Calendar calendar = new GregorianCalendar();
             SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-            File rootDir = new File(MainActivity.SAVED_FILES_DIR_PATH);
+            File rootDir = new File(MainActivity.getSaveFilePath(context));
             FileOutputStream out = new FileOutputStream(new File(rootDir, sdf.format(calendar.getTime()) + ".jpg"));
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.close();

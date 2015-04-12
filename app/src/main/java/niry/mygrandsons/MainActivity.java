@@ -1,6 +1,7 @@
 package niry.mygrandsons;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,9 +26,17 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
     public static final String NICK_NAME = "myGrandsons";
     public static final String ACTION= "ACTION";
     public static final String FIRST_SETUP= "FIRST_SETUP";
-
+    public static final String SHARED_DIR_PATH = "SHARED_DIR_PATH";
     private final String SAVED_FILES_DIR = "Saved Files";
-    public static String SAVED_FILES_DIR_PATH = null; //will be set on create
+
+    public static String getSaveFilePath(Context context){
+        SharedPreferences preferences = context.getSharedPreferences(MainActivity.SHARED_INFORMATION, context.MODE_PRIVATE);
+        String path=  preferences.getString(MainActivity.SHARED_DIR_PATH, MainActivity.NOT_EXISTS);
+        if (path==MainActivity.NOT_EXISTS){
+            return null;
+        }
+        return path;
+    }
 
 
 
@@ -103,7 +112,11 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
             if (!rootDir.exists() || !rootDir.isDirectory()){
                 rootDir.mkdir();
             }
-            setSavedFilesDirectoryPath(getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + SAVED_FILES_DIR);
+            String dirPath= getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + SAVED_FILES_DIR;
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(MainActivity.SHARED_INFORMATION, MODE_PRIVATE); //todo: remove
+            SharedPreferences.Editor ed = preferences.edit();
+            ed.putString(MainActivity.getSaveFilePath(this), dirPath);
+            ed.commit();
             return true;
 
         } //todo: manage internal storage.
@@ -111,9 +124,7 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
         return false;
     }
 
-    private void setSavedFilesDirectoryPath(String path){
-        this.SAVED_FILES_DIR_PATH = path;
-    }
+
 
     /**
      * Save the first slide:
@@ -126,7 +137,7 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
 
         BufferedWriter out;
         try {
-            FileWriter fileWriter = new FileWriter(MainActivity.SAVED_FILES_DIR_PATH + File.separator + sdf.format(calendar.getTime()) + ".txt");
+            FileWriter fileWriter = new FileWriter(MainActivity.getSaveFilePath(this) + File.separator + sdf.format(calendar.getTime()) + ".txt");
             out = new BufferedWriter(fileWriter);
             out.write(manual);
             out.close();

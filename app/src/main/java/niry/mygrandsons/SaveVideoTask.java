@@ -25,7 +25,7 @@ public class SaveVideoTask extends SaveFileAsync {
     protected Void doInBackground(String... url) {
 
         try {
-            File rootDir = new File(MainActivity.SAVED_FILES_DIR_PATH);
+            File rootDir = new File(MainActivity.getSaveFilePath(context));
             URL address = new URL(url[0]);
             HttpURLConnection connection = (HttpURLConnection) address.openConnection();
             connection.setRequestMethod("GET");

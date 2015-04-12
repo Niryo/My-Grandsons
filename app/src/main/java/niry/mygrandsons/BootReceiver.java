@@ -18,7 +18,7 @@ public class BootReceiver extends BroadcastReceiver {
         if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             Intent pollIntent= new Intent(context, WhatsApiService.class);
             pollIntent.putExtra(WhatsApiService.ACTION, WhatsApiService.ACTION_WAKE_AND_POLL);
-            PendingIntent operation = PendingIntent.getService(context, 0, pollIntent, 0);
+            PendingIntent operation = PendingIntent.getService(context, 0, pollIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             am.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime()+TIME_INTERVAL, TIME_INTERVAL, operation);
         }

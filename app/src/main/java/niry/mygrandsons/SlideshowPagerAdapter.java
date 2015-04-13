@@ -27,7 +27,8 @@ public class SlideshowPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         super.destroyItem(container, position, object);
-        registeredFragments.removeAt(position);
+        //registeredFragments.removeAt(position);
+
     }
 
     @Override

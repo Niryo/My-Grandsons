@@ -30,10 +30,8 @@ public class SaveImageTask extends SaveFileAsync {
             InputStream in = new java.net.URL(url).openStream();
             bitmap = BitmapFactory.decodeStream(in);
             //the name of the file will be the current time:
-            Calendar calendar = new GregorianCalendar();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-            File rootDir = new File(MainActivity.getSaveFilePath(context));
-            FileOutputStream out = new FileOutputStream(new File(rootDir, sdf.format(calendar.getTime()) + ".jpg"));
+         File fileToSave= allocateFileName(".jpg");
+            FileOutputStream out = new FileOutputStream(fileToSave);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.close();
 
@@ -42,7 +40,7 @@ public class SaveImageTask extends SaveFileAsync {
 
 
         } catch (Exception e) {
-                //todo:
+            saveUrlForLateDownload(url);
         }
 
         return null;

@@ -32,10 +32,9 @@ public class SaveVideoTask extends SaveFileAsync {
             connection.setDoOutput(true);
             connection.connect();
             //the name of the file will be the current time:
-            Calendar calendar = new GregorianCalendar();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-            FileOutputStream out = new FileOutputStream(new File(rootDir,
-                    sdf.format(calendar.getTime()) + ".mp4"));
+            File fileToSave= allocateFileName(".mp4");
+
+            FileOutputStream out = new FileOutputStream(fileToSave);
 
             InputStream in = connection.getInputStream();
             byte[] buffer = new byte[1024];
@@ -50,8 +49,7 @@ public class SaveVideoTask extends SaveFileAsync {
             super.sendNotification();
 
         } catch (Exception e) {
-
-           //todo
+            saveUrlForLateDownload(url[0]);
         }
         return null;
     }

@@ -26,8 +26,10 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
     public static final String NICK_NAME = "myGrandsons";
     public static final String ACTION= "ACTION";
     public static final String FIRST_SETUP= "FIRST_SETUP";
+    public static final String WAIT_FOR_DOWNLOAD= "WAIT_FOR_DOWNLOAD";
     public static final String SHARED_DIR_PATH = "SHARED_DIR_PATH";
     private final String SAVED_FILES_DIR = "Saved Files";
+
 
     public static String getSaveFilePath(Context context){
         SharedPreferences preferences = context.getSharedPreferences(MainActivity.SHARED_INFORMATION, context.MODE_PRIVATE);

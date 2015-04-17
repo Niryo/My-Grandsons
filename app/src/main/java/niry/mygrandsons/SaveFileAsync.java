@@ -11,7 +11,12 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
-
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -58,6 +63,45 @@ public void sendBroadcastIncomingMessage(){
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(id, builder.build());
+
+    }
+
+    public void saveUrlForLateDownload(String url){
+        Set<String> set = new HashSet<String>();
+        set.add(url);
+        SharedPreferences preferences = context.getSharedPreferences(MainActivity.SHARED_INFORMATION, context.MODE_PRIVATE);
+        Set<String> oldSet= preferences.getStringSet(MainActivity.WAIT_FOR_DOWNLOAD, null);
+        if(oldSet!=null){
+            set.addAll(oldSet);
+        }
+        SharedPreferences.Editor ed = preferences.edit();
+        ed.putStringSet(MainActivity.WAIT_FOR_DOWNLOAD, set );
+        ed.commit();
+    }
+
+    /**
+     * This method find a name for the new file and avoid clashing.
+     * @param fileExtension the extention of the file
+     * @return a File
+     */
+    public File allocateFileName(String fileExtension){
+        //the name of the file is the current time:
+        Calendar calendar = new GregorianCalendar();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+        File rootDir = new File(MainActivity.getSaveFilePath(context));
+        File fileToSave = new File(rootDir, sdf.format(calendar.getTime()) + fileExtension);
+        //check that we are not overriding other file:
+        while(fileToSave.exists()){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            calendar = new GregorianCalendar();
+            fileToSave = new File(rootDir, sdf.format(calendar.getTime()) + fileExtension);
+        }
+
+        return fileToSave;
 
     }
 

@@ -4,9 +4,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.util.Log;
 
 import net.sumppen.whatsapi4j.MessageProcessor;
 import net.sumppen.whatsapi4j.WhatsApi;
+
+import java.util.Set;
 
 /**
  * This class encapsulates the WhatsApi as a service
@@ -55,12 +58,40 @@ public class WhatsApiService extends Service {
         //we poll twice- first time for getting the headers and second time for the actual message.
         try {
             wa.pollMessages();
-            wa.pollMessages();
+//            Thread.sleep(3000); //sleep to give time to the message poller.
+//            wa.pollMessages();
             wa.sendPresence();
         } catch (Exception e) {
-            //todo
+           Log.w("custom", "cannot pull");
         }
     }
+
+    /**
+     * This method called on WAKE_AND_POLL command and try to redownload failed downloads.
+     */
+    private void reDownloadFailedFiles(){
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(MainActivity.SHARED_INFORMATION , MODE_PRIVATE);
+        Set<String> set = preferences.getStringSet(MainActivity.WAIT_FOR_DOWNLOAD, null);
+        if (set!=null){
+            for( String url : set){
+                if(url.endsWith(".jpg")){
+                   new SaveImageTask(getApplicationContext()).execute(url);
+                }
+                if(url.endsWith(".mp4")){
+            new SaveVideoTask(getApplicationContext()).execute(url);
+                }
+                if(url.endsWith(".txt")){
+                   new SaveVideoTask(getApplicationContext()).execute(url);
+                }
+            }
+        }
+        //clean the wait for download set:
+        SharedPreferences.Editor ed = preferences.edit();
+        ed.putStringSet(MainActivity.WAIT_FOR_DOWNLOAD, null );
+        ed.commit();
+
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -110,6 +141,7 @@ public class WhatsApiService extends Service {
                 @Override
                 public void run() {
                     connectAndLogin();
+                    reDownloadFailedFiles();
                     pollMessage();
                     try {
                         Thread.sleep(TIME_TO_SLEEP);

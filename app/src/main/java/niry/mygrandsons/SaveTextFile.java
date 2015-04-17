@@ -29,8 +29,8 @@ public class SaveTextFile extends SaveFileAsync {
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
         File rootDir = new File(MainActivity.getSaveFilePath(context));
         try {
-
-            FileWriter fileWriter = new FileWriter(rootDir + File.separator + sdf.format(calendar.getTime()) + ".txt");
+            File fileToSave= allocateFileName(".txt");
+            FileWriter fileWriter = new FileWriter(fileToSave.getAbsoluteFile());
             BufferedWriter out = new BufferedWriter(fileWriter);
             out.write(text[0]);
             out.close();

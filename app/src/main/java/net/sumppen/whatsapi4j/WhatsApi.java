@@ -2732,7 +2732,8 @@ public class WhatsApi {
 	}
 
 	public synchronized void pollMessages() throws InvalidKeyException, NoSuchAlgorithmException, IncompleteMessageException, InvalidMessageException, InvalidTokenException, IOException, WhatsAppException, JSONException, DecodeException {
-		processInboundData(readData());
+
+        processInboundData(readData());
 	}
 
 	private String createMsgId(String prefix) {

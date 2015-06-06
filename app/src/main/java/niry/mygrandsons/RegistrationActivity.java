@@ -40,7 +40,10 @@ public class RegistrationActivity extends Activity {
             public void onClick(View v) {
                 SharedPreferences preferences = getApplicationContext().getSharedPreferences(MainActivity.SHARED_INFORMATION, MODE_PRIVATE); //todo: remove
                 SharedPreferences.Editor ed = preferences.edit();
-                ed.putString("phone_number", "972535059773");
+                String countryCode = ((EditText) findViewById(R.id.countryCode)).getText().toString();
+                String phone = ((EditText) findViewById(R.id.phoneNumber)).getText().toString().substring(1); //the substring is for getting rid of the zero
+                final String phoneNumber = countryCode + phone;
+                ed.putString(MainActivity.SHARED_PHONE_NUMBER, phoneNumber);
                 ed.commit();
                 setEnterCodeLayout();
             }

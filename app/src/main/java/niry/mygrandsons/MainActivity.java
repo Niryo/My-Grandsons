@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
-public class MainActivity extends Activity { //todo: set font sizes , playbutton size, leave group, check new boot receiver alarm, test remove item at view pager.
+public class MainActivity extends Activity { //todo: set font sizes , playbutton size, leave group
     public static final String SHARED_INFORMATION = "SHARED_INFORMATION";
     public static final String SHARED_PASSWORD = "SHARED_PASSWORD";
     public static final String NOT_EXISTS = "NOT_EXISTS";
@@ -117,7 +117,7 @@ public class MainActivity extends Activity { //todo: set font sizes , playbutton
             String dirPath= getApplicationContext().getExternalFilesDir(null).getAbsolutePath()+ File.separator + SAVED_FILES_DIR;
             SharedPreferences preferences = getApplicationContext().getSharedPreferences(MainActivity.SHARED_INFORMATION, MODE_PRIVATE); //todo: remove
             SharedPreferences.Editor ed = preferences.edit();
-            ed.putString(MainActivity.getSaveFilePath(this), dirPath);
+            ed.putString(MainActivity.SHARED_DIR_PATH, dirPath);
             ed.commit();
             return true;
 

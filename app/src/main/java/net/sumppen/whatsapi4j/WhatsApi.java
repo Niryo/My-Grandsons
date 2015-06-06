@@ -70,17 +70,21 @@ import org.json.JSONObject;
  */
 public class WhatsApi {
 
-	private final int PORT = 443;                                      // The port of the WhatsApp server.
-	private final int TIMEOUT_SEC = 2;                                  // The timeout for the connection with the WhatsApp servers.
-	private final String WHATSAPP_CHECK_HOST = "v.whatsapp.net/v2/exist";  // The check credentials host.
-	private final String WHATSAPP_GROUP_SERVER = "g.us";                   // The Group server hostname
-	private final String WHATSAPP_HOST = "c.whatsapp.net";                 // The hostname of the WhatsApp server.
-	private final String WHATSAPP_REGISTER_HOST = "v.whatsapp.net/v2/register"; // The register code host.
-	private final String WHATSAPP_REQUEST_HOST = "v.whatsapp.net/v2/code";      // The request code host.
-	private final String WHATSAPP_SERVER = "s.whatsapp.net";               // The hostname used to login/send messages.
-	private final String WHATSAPP_DEVICE = "iPhone";                      // The device name.
-	private final String WHATSAPP_VER = "2.11.14";                // The WhatsApp version.
-	private final String WHATSAPP_USER_AGENT = "WhatsApp/2.12.61 S40Version/14.26 Device/GalaxyS5";// User agent used in request/registration code.
+    private static final String RELEASE_TOKEN_CONST = "PdA2DJyKoUrwLw1Bg6EIhzh502dF9noR9uFCllGk";
+    private static final String RELEASE_TIME = "1430860548912";
+    private final int PORT = 443;                                      // The port of the WhatsApp server.
+    private final int TIMEOUT_SEC = 2;                                  // The timeout for the connection with the WhatsApp servers.
+    private final String WHATSAPP_CHECK_HOST = "v.whatsapp.net/v2/exist";  // The check credentials host.
+    public static final String WHATSAPP_GROUP_SERVER = "g.us";                   // The Group server hostname
+    private final String WHATSAPP_HOST = "c.whatsapp.net";                 // The hostname of the WhatsApp server.
+    private final String WHATSAPP_REGISTER_HOST = "v.whatsapp.net/v2/register"; // The register code host.
+    private final String WHATSAPP_REQUEST_HOST = "v.whatsapp.net/v2/code";      // The request code host.
+    public static final String WHATSAPP_SERVER = "s.whatsapp.net";               // The hostname used to login/send messages.
+    private final String WHATSAPP_DEVICE = "S40";                      // The device name.
+    private final String WHATSAPP_VER = "2.12.81";                // The WhatsApp version.
+    private final String WHATSAPP_USER_AGENT = "WhatsApp/2.12.81 S40Version/14.26 Device/Nokia302";// User agent used in request/registration code.
+    private final String WHATSAPP_VER_CHECKER = "https://coderus.openrepos.net/whitesoft/whatsapp_version"; // Check WhatsApp version
+
 
 //    private final Cache cache = new DiskBasedCache(new File("/cache"), 1024 * 1024); // 1MB cap
 //    private final Network network = new BasicNetwork(new HurlStack());
@@ -336,9 +340,9 @@ public class WhatsApi {
 
 	}
 
-	protected String generateRequestToken(String country, String phone) throws IOException, NoSuchAlgorithmException {
-		return WhatsMediaUploader.md5("PdA2DJyKoUrwLw1Bg6EIhzh502dF9noR9uFCllGk1419900749520"+phone);
-	}
+    protected String generateRequestToken(String country, String phone) throws IOException, NoSuchAlgorithmException {
+        return WhatsMediaUploader.md5(RELEASE_TOKEN_CONST+RELEASE_TIME+phone);
+    }
 
 	private byte[] hash(String algo, byte[] dataBytes) throws NoSuchAlgorithmException {
 		MessageDigest md;

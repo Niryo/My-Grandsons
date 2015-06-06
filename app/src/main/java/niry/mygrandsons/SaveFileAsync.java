@@ -56,13 +56,19 @@ public void sendBroadcastIncomingMessage(){
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(resultPendingIntent);
-        builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         builder.setSound(uri);
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(id, builder.build());
+
+
+        Intent i = new Intent();
+        i.setClassName("niry.mygrandsons", "niry.mygrandsons.MainActivity");
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
 
     }
 

@@ -5,11 +5,14 @@ android {
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId 'niry.mygrandsons'
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
+
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,5 +31,5 @@ dependencies {
     compile files('libs/json-20080701.jar')
     compile files('libs/junit-4.8.2.jar')
     compile files('libs/slf4j-api-1.7.12.jar')
-    compile files('libs/universal-image-loader-1.9.3.jar')
+
 }

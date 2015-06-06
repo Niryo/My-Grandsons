@@ -132,7 +132,6 @@ public class SlideshowActivity extends FragmentActivity {
     protected  void onDestroy(){
         super.onDestroy();
         unregisterReceiver(this.IncomingMessageReceiver);
-
     }
 
     @Override
